@@ -1,0 +1,15 @@
+[0] Config.pm:307> INFO - This is Biber 2.17
+[0] Config.pm:310> INFO - Logfile is 'tesi.blg'
+[60] biber:340> INFO - === dom ago 28, 2022, 20:02:24
+[71] Biber.pm:418> INFO - Reading 'tesi.bcf'
+[130] Biber.pm:969> INFO - Using all citekeys in bib section 0
+[142] Biber.pm:4383> INFO - Processing section 0
+[151] Biber.pm:4574> INFO - Looking for bibtex file 'bibliography.bib' for section 0
+[151] bibtex.pm:1713> INFO - LaTeX decoding ...
+[153] bibtex.pm:1518> INFO - Found BibTeX data source 'bibliography.bib'
+[184] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[184] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[184] Biber.pm:4203> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'en-US'
+[185] Biber.pm:4209> INFO - No sort tailoring available for locale 'en-US'
+[189] bbl.pm:654> INFO - Writing 'tesi.bbl' with encoding 'UTF-8'
+[190] bbl.pm:757> INFO - Output to tesi.bbl
