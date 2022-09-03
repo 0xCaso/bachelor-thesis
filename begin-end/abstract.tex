@@ -1,0 +1,58 @@
+% !TEX encoding = UTF-8
+% !TEX TS-program = pdflatex
+% !TEX root = ../thesis.tex
+
+%**************************************************************
+% Sommario
+%**************************************************************
+\cleardoublepage
+\phantomsection
+\pdfbookmark{Summary}{Summary}
+\begingroup
+\let\clearpage\relax
+\let\cleardoublepage\relax
+\let\cleardoublepage\relax
+
+\chapter*{Abstract}
+
+Nowadays, most of our data is owned by private companies, and everyone knows 
+everything about us because privacy online is not well preserved. Imagining a 
+world different from this is difficult, but things can change thanks to 
+Self-Sovereign Identity (SSI).\\
+SSI's approach aims to bring credentials back to the actual owners, the people.
+This is possible through cryptography and secure authentication layers 
+(e.g., OAuth, OpenIDConnect).\\
+The developed product embraces this philosophy and offers a solution where the 
+users are the holders, issuers, or verifiers of VCs (Verifiable Credentials). 
+Specifically, will be developed software agents who create, issue, verify, 
+modify or even revoke the credentials, leveraging an SSI Kit.\\\\
+% Ultimately, we will merge this solution with the blockchain, a sort of 
+% transparent and distributed database, where we can make public what we truly want to 
+% share (e.g., credentials verification by a trusted verifier).\\\\
+This paper describes in detail Matteo Casonato's (approx.) three hundred hours 
+of internship at the company Athesys S.r.l. (actually, working for its 
+sub-startup Monokee). The goal was to merge SSI off-chain (i.e., outside the 
+blockchain) operations with on-chain smart contracts.\\
+In particular, the job has been divided into three macro stages:
+\begin{enumerate}
+    \item Deep dive into the SSI technology, studying all of its primitives 
+    and problem analyzation;
+    \item Development of a Software Development Kit (SDK), which enabled us 
+    to dialog with an SSI Kit (off-chain logic); in the meantime, my friend 
+    and co-worker Matteo Midena developed the smart contracts (on-chain logic);
+    \item Merge off-chain and on-chain solutions in a proof of concept web 
+    application.
+\end{enumerate}
+
+%\vfill
+%
+%\selectlanguage{english}
+%\pdfbookmark{Abstract}{Abstract}
+%\chapter*{Abstract}
+%
+%\selectlanguage{italian}
+
+\endgroup			
+
+\vfill
+

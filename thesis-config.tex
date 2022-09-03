@@ -1,5 +1,5 @@
 %**************************************************************
-% file contenente le impostazioni della tesi
+% file contenente le impostazioni della thesis
 %**************************************************************
 
 %**************************************************************
@@ -10,7 +10,7 @@
 \newcommand{\myName}{Matteo Casonato}                                    
 \newcommand{\myTitle}{Owning your data through Self-Sovereign Identity: agents implementation for Verifiable Credentials interaction}
 
-% Tipo di tesi                   
+% Tipo di thesis                   
 \newcommand{\myDegree}{Bachelor thesis}
 
 % Università             
@@ -46,6 +46,13 @@
 \setlength{\parindent}{14pt}   % larghezza rientro della prima riga
 \setlength{\parskip}{0pt}   % distanza tra i paragrafi
 
+% PER STAMPARE TESI, COMMENTARE LE 4 RIGHE SOTTO
+% E SETTARE TWOSIDE IN DOCUMENTCLASS
+
+\pdfpageheight=\paperheight
+\pdfpagewidth=\paperwidth
+\setlength\oddsidemargin{\dimexpr(\paperwidth-\textwidth)/2 - 1in\relax}
+\setlength\evensidemargin{\oddsidemargin}
 
 %**************************************************************
 % Impostazioni di biblatex
@@ -92,7 +99,7 @@
 %**************************************************************
 % Impostazioni di graphicx
 %**************************************************************
-\graphicspath{{immagini/}} % cartella dove sono riposte le immagini
+\graphicspath{{img/}} % cartella dove sono riposte le immagini
 
 
 %**************************************************************
@@ -136,11 +143,10 @@
 %**************************************************************
 % Impostazioni di itemize
 %**************************************************************
-\renewcommand{\labelitemi}{$\ast$}
-
-%\renewcommand{\labelitemi}{$\bullet$}
-%\renewcommand{\labelitemii}{$\cdot$}
-%\renewcommand{\labelitemiii}{$\diamond$}
+% \renewcommand{\labelitemi}{$\ast$}
+% \renewcommand{\labelitemi}{$\bullet$}
+% \renewcommand{\labelitemii}{$\cdot$}
+% \renewcommand{\labelitemiii}{$\diamond$}
 %\renewcommand{\labelitemiv}{$\ast$}
 
 

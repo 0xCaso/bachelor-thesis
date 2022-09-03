@@ -1,0 +1,136 @@
+% !TEX encoding = UTF-8
+% !TEX TS-program = pdflatex
+% !TEX root = ../thesis.tex
+
+\chapter{Introduction}
+This chapter will introduce the problem: what we are analyzing, why 
+this problem exists, how it is defined, and how it can be resolved. 
+Also will be introduced the company, the internship, and the work 
+methodology.
+% /*//////////////////////////////////////////////////////////////
+%                             SECTION
+% //////////////////////////////////////////////////////////////*/
+\section{The problem}
+As stated in the abstract, the main problem is preserving the ownership 
+of people's data. In order to achieve this objective, we will pass through 
+problems like interoperability, privacy safeguarding, law compliance, security,
+and others.
+\vspace*{0.3cm}\\
+Assuming we can create a system where people hold their credentials 
+(called Verifiable Credentials, or VCs):
+\begin{enumerate}
+    \setlength\itemsep{-0.3em}
+    \item How can these credentials be shown to and verified in the 
+    same manner by different actors?
+    \item Can we demonstrate something without revealing it, preserving
+    our privacy this way?
+    \item Is it possible to save on blockchain people's data, or are we
+    going against specific privacy laws?
+    \item Are credentials susceptible to attacks from hackers trying to 
+    steal our data?
+\end{enumerate}
+Thanks to Self-Sovereign Identity, we can give a positive answer to all
+of these questions, but as is often the case, we have to deal with 
+compromises.
+
+\paragraph{Worldwide scenario}
+The current situation is clear. Every time we interact with a new website,
+we may want to interact with it, and to do so, we have to register to create 
+a profile. In this phase, we have to give our data to the company, and they 
+will be stored in their databases.
+
+\paragraph{Problem identification}
+Let us now try to answer the previous questions to check how the present 
+context is managed:
+\begin{enumerate}
+    \item \textbf{Interoperability} | We could have two cases. In the first one, 
+    we use a technology that enables us to use our existing account on 
+    multiple websites, which integrates this solution, for example, "Sign-Up 
+    with Google". Here our data is owned by Google, which shares them (if we 
+    grant permission) with third parties, and no one prohibits third parties 
+    from keeping our shared data saved. In the second case, we must register 
+    each time if the third party does not integrate other "Sign-Up with \textbf{*}" 
+    solutions. In both cases, third parties can collect our data (in the 
+    first case, Google explicitly knows our interests, but there is a minimum
+    degree of interoperability). Also, in most cases, companies will let us 
+    create multiple accounts without verifying our data (one exception to 
+    this is the use of KYC).
+    \item \textbf{Privacy} | In some cases, we must show our data
+    with complete transparency: for example, the police stop us on the 
+    street and ask for our details. Nevertheless, let us suppose we want to 
+    demonstrate something without revealing the details. For example, 
+    someone has graduated and wants to demonstrate it without revealing 
+    his final grade. We can do this thanks to a cryptography method 
+    called \textit{Zero-Knowledge Proof}. However, this has not yet been
+    implemented in most current systems.
+    \item \textbf{Law compliance} | If we consider saving users' data in 
+    blockchains, this problem does not exist as we examine centralized 
+    systems which do not use them. By the way, of course, there are privacy 
+    laws companies must follow (like GDPR).
+    \item \textbf{Security} | Our information is stored in databases. With 
+    a data breach, considering a centralized system, a malicious actor can 
+    access all users' data at once. Sadly, this happens often. So often 
+    that someone has made a website where anyone can check if his data has 
+    been stolen online at least once (\href{https://haveibeenpwned.com/}
+    {Have I Been Pwned?}).
+\end{enumerate}
+
+\paragraph{Problem statement}
+With the above considerations, it is clear that the existing systems work 
+but could be significantly improved. In fact, interoperability enhancement 
+would mean privacy and security penalization. Compromises exist, but if the 
+system is well designed, they can be significantly reduced or at least 
+moved to less dangerous areas. Here, the need for a more secure way to store
+user data arises. A way that intersects the analyzed points, bringing new 
+power to people and reducing that of companies. This is the Self-Sovereign 
+Identity's principle, which the developed solution will leverage.
+
+\paragraph{Approaches} SSI's concept is pretty simple, as opposed to its 
+(in development) implementation. Everyone has different relationships or 
+unique sets of identifying information. This information could include 
+birth date, citizenship, university degrees, or business licenses. In the 
+physical world, these are represented as cards and certificates that the 
+identity holder holds in their wallet or a safe place like a safety deposit 
+box. They are presented when the person needs to prove their identity or 
+something about it.\\
+Self-sovereign identity (SSI) brings the same freedom and personal autonomy
+to the internet in a safe and trustworthy identity management system. 
+SSI means the individual (or organization) manages the elements that make 
+up their identity, and he digitally controls access to those credentials,
+called Verifiable Credentials (or VCs). They are digital representations of
+information that can be verified by a third party.
+\vspace*{0.3cm}\\
+This is achievable by involving three participants:
+\begin{enumerate}
+    \item \textbf{Holder} | The holder is an individual in the scenario, 
+    although it can also be an organization/company. The holder is the 
+    entity that holds the credential.
+    \item \textbf{Issuer} | The issuer is the institution, be it a company, 
+    certifier body, or governmental organization, that has been awarded a 
+    level of trust to provide information (i.e., a public body that issued 
+    a passport)
+    \item \textbf{Verifier} | The verifier is the individual, organization,
+    company, or government with whom the holder must prove information's 
+    legitimacy and trustworthiness.
+\end{enumerate}
+The Verifiable Data Registry grants the trust: here are stored schemas and 
+identifiers (linked to the credentials) that the verifiers use to check 
+data validity without the issuer's intervention.
+\vspace*{0.3cm}\\
+To make a preliminary check of this solution's viability, let us try to 
+answer the previous four questions, considering the new scenario:
+\begin{enumerate}
+    \item \textbf{Interoperability} | 
+    \item \textbf{Privacy} | 
+    \item \textbf{Law compliance} | 
+    \item \textbf{Security} | 
+\end{enumerate}
+Check delle 4 domande --> sono ok --> 10 principi
+% /*//////////////////////////////////////////////////////////////
+%                             SECTION
+% //////////////////////////////////////////////////////////////*/
+\section{Basic use cases}
+% /*//////////////////////////////////////////////////////////////
+%                             SECTION
+% //////////////////////////////////////////////////////////////*/
+\section{Company, internship, work methodology}

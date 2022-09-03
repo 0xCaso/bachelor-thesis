@@ -11,12 +11,12 @@
 % I seguenti commenti speciali impostano:
 % 1. 
 % 2. PDFLaTeX come motore di composizione;
-% 3. tesi.tex come documento principale;
+% 3. thesis.tex come documento principale;
 % 4. il controllo ortografico italiano per l'editor.
 
 % !TEX encoding = UTF-8
 % !TEX TS-program = pdflatex
-% !TEX root = tesi.tex
+% !TEX root = thesis.tex
 % !TEX spellcheck = it-IT
 
 % PDF/A filecontents
@@ -31,8 +31,8 @@
 
 \documentclass[10pt,                    % corpo del font principale
                a4paper,                 % carta A4
-               twoside,                 % impagina per fronte-retro
-               openright,               % inizio capitoli a destra
+               oneside,                 % impagina per fronte-retro
+               openright,               % inizio chapters a destra
                english,                 
                ]{book}    
 
@@ -101,19 +101,19 @@
 
 \usepackage[toc, acronym]{glossaries}   % glossario
                                         % per includerlo nel documento bisogna:
-                                        % 1. compilare una prima volta tesi.tex;
-                                        % 2. eseguire: makeindex -s tesi.ist -t tesi.glg -o tesi.gls tesi.glo
-                                        % 3. eseguire: makeindex -s tesi.ist -t tesi.alg -o tesi.acr tesi.acn
-                                        % 4. compilare due volte tesi.tex.
+                                        % 1. compilare una prima volta thesis.tex;
+                                        % 2. eseguire: makeindex -s thesis.ist -t thesis.glg -o thesis.gls thesis.glo
+                                        % 3. eseguire: makeindex -s thesis.ist -t thesis.alg -o thesis.acr thesis.acn
+                                        % 4. compilare due volte thesis.tex.
 
 \usepackage[backend=biber,style=verbose-ibid,hyperref,backref]{biblatex}
                                         % eccellente pacchetto per la bibliografia; 
                                         % produce uno stile di citazione autore-anno; 
                                         % lo stile "numeric-comp" produce riferimenti numerici
                                         % per includerlo nel documento bisogna:
-                                        % 1. compilare una prima volta tesi.tex;
+                                        % 1. compilare una prima volta thesis.tex;
                                         % 2. eseguire: biber tesi
-                                        % 3. compilare ancora tesi.tex.
+                                        % 3. compilare ancora thesis.tex.
 
 \input{thesis-config}                     % file con le impostazioni personali
 
@@ -122,28 +122,27 @@
 % Materiale iniziale
 %**************************************************************
 \frontmatter
-\input{inizio-fine/frontespizio}
-\input{inizio-fine/colophon}
-\input{inizio-fine/dedica}
-\input{inizio-fine/sommario}
-\input{inizio-fine/ringraziamenti}
-\input{inizio-fine/indici}
+\input{begin-end/coverpage}
+\input{begin-end/colophon}
+\input{begin-end/abstract}
+\input{begin-end/acknowledgments}
+\input{begin-end/indexes}
 \cleardoublepage
 
 %**************************************************************
 % Materiale principale
 %**************************************************************
 \mainmatter
-\input{capitoli/capitolo-1}
-\input{capitoli/capitolo-2}
-\input{capitoli/capitolo-3}
-\input{capitoli/capitolo-4}
+\input{chapters/chapter-1}
+\input{chapters/chapter-2}
+\input{chapters/chapter-3}
 
 %**************************************************************
 % Materiale finale
 %**************************************************************
 \backmatter
+\input{begin-end/conclusion}
 \printglossary[type=\acronymtype, title=Acronimi e abbreviazioni, toctitle=Acronimi e abbreviazioni]
-\printglossary[type=main, title=Glossario, toctitle=Glossario]
-\input{inizio-fine/bibliografia}
+\printglossary[type=main, title=Glossary, toctitle=Glossary]
+\input{begin-end/bibliography}
 \end{document}
