@@ -8,7 +8,7 @@ this problem exists, how it is defined, and how it can be resolved.
 Also will be introduced the company, the internship, and the work 
 methodology.
 % /*//////////////////////////////////////////////////////////////
-%                             SECTION
+%                           THE PROBLEM
 % //////////////////////////////////////////////////////////////*/
 \section{The problem}
 As stated in the abstract, the main problem is preserving the ownership 
@@ -20,14 +20,14 @@ Assuming we can create a system where people hold their credentials
 (called Verifiable Credentials, or VCs):
 \begin{enumerate}
     \setlength\itemsep{-0.3em}
-    \item How can these credentials be shown to and verified in the 
-    same manner by different actors?
-    \item Can we demonstrate something without revealing it, preserving
-    our privacy this way?
-    \item Is it possible to save on blockchain people's data, or are we
-    going against specific privacy laws?
-    \item Are credentials susceptible to attacks from hackers trying to 
-    steal our data?
+    \item \textbf{Interoperability} | How can these credentials be shown to and 
+    verified in the same manner by different actors?
+    \item \textbf{Privacy} | Can we demonstrate something without revealing it, 
+    preserving our privacy this way?
+    \item \textbf{Law compliance} | Is it possible to save on blockchain people's
+    data, or are we going against specific privacy laws?
+    \item \textbf{Security} | Are credentials susceptible to attacks from hackers 
+    trying to steal our data?
 \end{enumerate}
 Thanks to Self-Sovereign Identity, we can give a positive answer to all
 of these questions, but as is often the case, we have to deal with 
@@ -99,7 +99,7 @@ SSI means the individual (or organization) manages the elements that make
 up their identity, and he digitally controls access to those credentials,
 called Verifiable Credentials (or VCs). They are digital representations of
 information that can be verified by a third party.
-\vspace*{0.3cm}\\
+\vspace*{1.2cm}\\
 This is achievable by involving three participants:
 \begin{enumerate}
     \item \textbf{Holder} | The holder is an individual in the scenario, 
@@ -120,17 +120,167 @@ data validity without the issuer's intervention.
 To make a preliminary check of this solution's viability, let us try to 
 answer the previous four questions, considering the new scenario:
 \begin{enumerate}
-    \item \textbf{Interoperability} | 
-    \item \textbf{Privacy} | 
-    \item \textbf{Law compliance} | 
-    \item \textbf{Security} | 
+    \item \textbf{Interoperability} | With standards definition, credentials
+    can be presented to verifiers by holders, in the same manner each time. 
+    Examples of standards could be credentials schemas (e.g., defining which fields are 
+    mandatory) and verification policies (i.e., how the credentials are verified).
+    \item \textbf{Privacy} | As already stated, we can demonstrate something
+    without revealing its details with \textit{Zero-Knowledge Proofs}. This 
+    technology has already found applications and implementations in 
+    blockchains (e.g., mixers, ZK-rollups, or ZK-games like Dark Forest), 
+    so a decentralized system that leverages ZKPs is buildable.
+    \item \textbf{Law compliance} | As will be read later in the paper, 
+    this is one of the most challenging points of the full SSI integration 
+    with blockchains because of its transparency nature. Everything is 
+    registered and immutable, so we must choose what to register and what 
+    not. Again, compromises are needed.
+    \item \textbf{Security} | As users hold credentials, as long as they are
+    not saved in centralized servers, significant data breaches (targeting 
+    databases) would happen way less often. The user is responsible for his 
+    information security, and secure communication protocols will enhance it.
 \end{enumerate}
-Check delle 4 domande --> sono ok --> 10 principi
+After quickly drafting these reflections, it can be said that SSI's 
+principles fit our problem requests, so a solution that aims to solve them 
+can be tried to be developed.\\
+These analyzed points are well discussed in an article by Christopher Allen 
+called "The path to Self-Sovereign Identity", where he defines the "Ten 
+Principles of Self-Sovereign Identity".
+
 % /*//////////////////////////////////////////////////////////////
-%                             SECTION
+%                           USE CASES
 % //////////////////////////////////////////////////////////////*/
 \section{Basic use cases}
+After addressing the problem and trying to provide answers to the initial 
+questions, it is possible to start thinking about the first use cases.
+Obviously, the minimum requirement is credentials involvement: each time a user 
+has to demonstrate some information, SSI could theoretically be leveraged.
+\vspace*{0.3cm}\\
+In the first part of the internship, the focus has been (after the SSI primitives 
+study) on use cases. They can be grouped into these two macro-categories:
+\paragraph{Academics}
+Here can be included all the uses about, for instance, university. A lot of them 
+can be thought about and analyzed, but the most interesting which have been examined 
+are these:
+    \subparagraph{Exams and Diplomas emission} Students can present 
+    their credentials (badge) to the university to register for exams. 
+    Each exam result would be another credential, and in order to access the 
+    diploma, he should present all the credentials related to passed exams 
+    (possibly wrapping them in a "presentation"). The final diploma would 
+    be another verifiable credential emitted by the university.
+    \subparagraph{Scholarships requests} Students can demonstrate they are 
+    eligible for facilitations by presenting their credentials to the university. 
+    This way, information pieces are easily checkable and verifiable, and procedures 
+    would be faster and less susceptible to errors. A "permit" credentials could be 
+    emitted, which would grant the student access to facilitations (e.g., canteen,  
+    money, discounts...)
+    \subparagraph{Discounts and university canteen} It is evident that comfortable
+    functions come into effect by processing the previous use case. Instead of 
+    creating accounts with university e-mail, students should present their 
+    credentials to services that offer facilitations, bringing interoperability 
+    and trust to each part.
+\paragraph{Institutionals}
+Here can be placed all use cases involving the participation of national, 
+European (or other unions), or global entities.
+Noteworthy examples could be:
+    \subparagraph{National ID} This new system would replace physical identity 
+    cards with verifiable credentials. The municipality would issue them to the 
+    citizens, and the latter would use them to access all the national services 
+    or other services which request IDs.
+    \subparagraph{European SSI system} This use case is currently in development 
+    and is called EBSI (European Blockchain Services Infrastructure). The final 
+    aim is to introduce the use of verifiable credentials in Europe and introduce 
+    new types of services to European citizens or improve the current ones.
+\vspace*{0.3cm}\\
+These are just some examples of the possible use cases that can be developed, 
+considering the model SSI offers.
+With the final product built during the internship (obviously, this would need 
+additional integrations but gives a solid base), those listed are all viable 
+scenarios.
 % /*//////////////////////////////////////////////////////////////
-%                             SECTION
+%               COMPANY, INTERNSHIP, WORK METHODOLOGY
 % //////////////////////////////////////////////////////////////*/
-\section{Company, internship, work methodology}
+\section{Internship description}
+The previous sub-chapters clearly defined the problems and use-cases the product 
+aims to involve and realize. This one will describe the structure of the internship, 
+the company where it took place, and how the work was done.
+\subsection{The company}
+Officially, the company where the internship took place is 
+called Athesys (from the Latin version of "Adige", i.e., "Athesis"), but actually, 
+the job was about their startup, called \textbf{Monokee}.
+    \paragraph{Athesys} is a XaaS (Anything as a Service) integrator founded 
+    in 2010; they provide     services such as database management, business 
+    intelligence, software development, security, and cloud.\\
+    In 2012 they began thinking about IAM (Identity and Access Management) solutions, 
+    delivering a product that, among many things, provides a Single Sign-On 
+    functionality across different domains.
+    \paragraph{Monokee} is born in 2017, and it is an innovative product-oriented 
+    startup that serves as an IAM for centralized and decentralized digital 
+    identities. In fact, its solution is hybrid: to the classic method (which 
+    involves using databases to store information), it intends to add SSI techniques,
+    and this is where the internship comes in.
+\subsection{Internship objectives and planning}
+It is dutiful to specify that, at least initially, the objectives were not crystal 
+clear. The overall concept of the internship itself was well defined, but the path 
+to developing the whole solution was not.\\
+The main objective was to develop \textbf{a software that enables the user to interact 
+with verifiable credentials}. This type of software is named \textit{Agent}, and 
+users are intended as holders, issuers, and verifiers.\\
+Before the internship, the Monokee team searched for some existing solutions 
+(unfortunately, not numerous) and found an SSI Kit developed by walt.id, a European 
+company focused on SSI.
+\vspace*{0.3cm}\\
+So, in the beginning, the steps to follow were:
+\begin{enumerate}
+    \item Deep dive into SSI technology and its primitives;
+    \item Analysis of the problem and understanding of what is needed and how to use it
+    for the final product;
+    \item Study of SSI Kit, provided by walt.id;
+    \item If it fits the needs, leverage it to develop the Agent (if not, develop
+    a similar software);
+    \item If possible, integration into a web application Proof of Concept with
+    blockchain's smart contracts.
+\end{enumerate}
+\vspace*{0.3cm}
+The path to pursue became more apparent during the first two steps (technology study 
+and problem analysis), so the final internship structure became this:
+\begin{enumerate}
+    \item \textbf{Requirements analysis} | In this phase, SSI has been well studied 
+    and comprehended to understand the next steps. It has been divided into:
+    \vspace*{-0.1cm}
+    \begin{enumerate}
+        \setlength\itemsep{-0.1em}
+        \item \textbf{Technologies study} | Understanding of the existing standards;
+        \item \textbf{Solution conception} | Definition of the following steps;
+    \end{enumerate}
+    \vspace*{0.1cm}
+    \item \textbf{SDK Development} | Development of the library that serves as 
+    an abstraction of the existent SSI Kit, allows it to be used on a web application.
+    Divided into:
+    \vspace*{-0.1cm}
+    \begin{enumerate}
+        \setlength\itemsep{-0.1em}
+        \item \textbf{Software development} | Code development of main entities;
+        \item \textbf{SSI Kit source code study} | Needed mostly because of 
+        documentation lack;
+        \item \textbf{Testing} | Unit testing of the library main components;
+    \end{enumerate}
+    \vspace*{0.1cm}
+    \item \textbf{PoC Development} | Final part of the internship, where has been
+    developed a web application that merges the SSI Kit SDK with smart contracts
+    with SSI features. Separated into:
+    \vspace*{-0.1cm}
+    \begin{enumerate}
+        \setlength\itemsep{-0.1em}
+        \item \textbf{Software development} | Development of the web application (back-end and
+        front-end);
+        \item \textbf{SDK improvement for integration} | Improvement of the SDK to better 
+        fit the web application needs;
+        \item \textbf{Debug / UI-UX improvement} | Final arrangements of the proof of concept.
+    \end{enumerate}
+\end{enumerate}
+In the following Gantt chart are outlined the timings of each step:
+\begin{center}
+    \hspace*{-1cm}
+    \includegraphics[keepaspectratio = true, width=15cm]{chapter1/internshipGantt.png}
+    \captionof{figure}{Internship structure}
+\end{center}
