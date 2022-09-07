@@ -253,10 +253,165 @@ Besu (also a permissioned and privacy-oriented), with the big difference being t
 it is not EVM compatible so the smart contracts will be written in languages such as 
 Java and Go instead of Solidity.
 \subsection{Libraries and Stack involved}
+After analyzing all the necessary pre-concepts, we can now introduce the last ones:
+EBSI, which can be used as VDR, and walt.id, the software suite that includes the SSI 
+Kit.
 \subsubsection{EBSI}
+European Blockchain Services Infrastructure (EBSI) is a service infrastructure for 
+managing European citizens' identity and education credentials. These use cases aim 
+to facilitate the mobility of students, young professionals, and entrepreneurs, as 
+well as ensure and verify the authenticity of digital information in different 
+sectors.
+\begin{center}
+    \includegraphics[scale=0.27]{chapter2/ebsiflow.png}
+    \captionof{figure}{EBSI interaction flow}
+\end{center}
+Its structure is rather complex, consisting of two essential layers: the bottom layer 
+is made up of EBSI's blockchain, which holds all the credentials and smart contracts 
+with which one can interact with them, while the upper layer by a microservices 
+architecture and Application Programming Interface (API), which interface with the 
+blockchain. In practice, to talk to the EBSI blockchain (if you do not have a node), 
+you must interface through the microservices architecture and API. The blockchains
+used by EBSI are Hyperledger Fabric and Hyperledger Besu.\\
+Finally, in the blockchain are already deployed a series of smart contracts, serving 
+as a registry for DIDs (and DID documents) and for trusted applications, issuers, 
+ledgers, and policies.
 \subsubsection{walt.id SSI Kit}
-
+The walt.id software suite, an open-source project developed by a European team, 
+consists of a set of kits that allows us to add SSI functionalities to our product. 
+Specifically, by leveraging the SSI Kit, it will be possible to generate encrypted 
+keys, register and resolve DIDs, create, issue, submit and verify VCs, and much more. 
+This kit can be used via Command Line Interface (CLI) or REST API. Currently, the 
+kit supports \texttt{did:key}, \texttt{did:web}, and \texttt{did:ebsi} methods (the 
+latter allows us to talk to the EBSI blockchain). Since, by default, it dialogues with 
+other APIs (e.g., EBSI's API), if we wanted to register, for example, a DID in a 
+mainnet that has not yet been registered, such as Sovrin, we would need to add the 
+\texttt{did:sov} method to the list of supported methods, also implementing the 
+dialogue with Sovrin's API. Doing this would require a new module development, 
+integrating it with the SSI Kit, and developing something similar to what has been 
+done for EBSI, although the complexity is unknown.
 % /*//////////////////////////////////////////////////////////////
 %                        STATE OF THE ART
 % //////////////////////////////////////////////////////////////*/
 \section{State of the art}
+Taking back the purpose of this paper, we want to build a hybrid solution, merging SSI 
+with blockchain smart contracts. Currently, within SSI, most blockchains are used only 
+as VDR (so to store DIDs, VC verification policies, schemas...).\\
+The final software (PoC) has to leverage a kit to offer SSI functionalities (SDK) and 
+combine these with blockchain features to automate verifications and possibly 
+facilitate certain issuing cases (smart contract suite).\\
+That said, we can now illustrate what already exists and what has to be crafted.
+\subsection{Complete solution}
+"Complete solution" means a software that already merges an SSI SDK with a smart 
+contract suite. Unfortunately, during the first two weeks of research and situation 
+study, we did not find anything already built, probably because of the technologies 
+involved novelty.\\
+As a result, we must find existent SDKs and smart contract standards to build the 
+desired solution and, if not, build everything from scratch.
+\subsection{SSI Kits}
+As already stated and introduced, SSI Kit by walt.id is a Swiss Army knife for SSI 
+primitives. However, it has been chosen after analyzing other existing 
+solutions.\\
+Initially, we were looking for a kit that provides multichain support (i.e., the 
+possibility to interact with more DIDs across multiple blockchains). 
+Unfortunately, an equivalent of the SSI Kit with multiple chains support does not 
+exist, and every other found kit supports at most one blockchain. The Decentralized 
+Identity Foundation (DIF) develops the most interoperable tools we found in the SSI
+scope: Universal Resolver and Universal Registrar.\\
+We now describe all the solutions we found and specify why we choose the SSI Kit by 
+walt.id.
+\vspace{0.35cm}\\
+Firstly, all the existing kits support the two main DID methods:
+\begin{itemize}
+    \item \texttt{\textbf{did:key}}: a non-registry based method that generates a DID
+    from a cryptographic key. It is the simplest method;
+    \item \texttt{\textbf{did:web}}: a method that generates a DID that enables the 
+    use of an existing web domain as identifier.
+\end{itemize}
+Other than SSI Kit by walt.id, we found two SDKs developed by MATTR and Veramo Labs.
+In this table, we will outline the kit, which DID method is supported other than the 
+two discussed, the documentation status, and whether the kit is free to use.
+\renewcommand{\arraystretch}{1.75}
+\vspace{0.1cm}\\
+\begin{table}[h]
+    \begin{center}
+        \rowcolors{2}{lighter-grayer}{white}
+        \begin{tabular}{ |c|c|c|c|c| } 
+            \hline
+            \rowcolor{lighter-gray}
+            \textbf{SSI Kit} & \textbf{DID method} & \textbf{Documentation}
+             & \textbf{Free to use} & \textbf{Support}\\
+            \hline
+            walt.id & did:ebsi & Improvable \tablefootnote{Improvable: not everything
+            is documented so we must read the source code or contact the team} & Yes & 
+            Team, Slack\\ 
+            MATTR & did:ion \tablefootnote{DID method to interact with ION, a Bitcoin 
+            sidechain} & Good & No & E-mail\\ 
+            Veramo & did:ethr \tablefootnote{DID method to interact with Ethereum} & 
+            Improvable & Yes & Discord\\ 
+            \hline
+        \end{tabular}
+        \vspace{0.2cm}
+        \caption{Analyzed kits}
+    \end{center}
+\end{table}
+\vspace{-0.5cm}\\
+To summarize:
+\begin{itemize}
+    \item \textbf{MATTR} SDK adds support for \texttt{did:ion} method. Its biggest flaw is 
+    the lack of support from the team: the only method to reach them is by sending an e-mail. 
+    In addition, the kit is not free to use.
+    \item \textbf{Veramo} SDK supports the \texttt{did:eth} method. We need to join the
+    Discord server (not so active) to ask for support, the SDK is free, but the 
+    documentation could be improved.
+    \item \textbf{walt.id} SSI Kit adds support for the EBSI blockchain. It is free to 
+    use, and the documentation is improvable, but as the kit is in development, the 
+    team is very active in the Slack channel (also, Monokee had direct contact with the
+    walt.id team).
+\end{itemize}
+After the research, we choose walt.id SSI Kit, mainly because the kit offered more 
+functionalities and was more customizable. Additionally, it supported EBSI, which was 
+a good "nice-to-have" for Monokee, as in contact with the University of Naples 
+Federico II to build a project interacting with the European blockchain.\\
+Finally, the team was very active and chose to support us in developing the SDK for 
+walt.id SSI Kit.
+
+\subsection{Smart contract suites}
+Regarding the use of smart contracts in the SSI environment, we first need to know how they 
+can be used.\\
+The roles they can assume, following the SSI model, are two: issuer and verifier (holder 
+would not make much sense). The role we already know they can assume is a register of DID 
+and events like verification or revocation.
+\vspace{0.3cm}\\
+Let us now try to think about what should a smart contract need in order to be an issuer or 
+a verifier:
+\begin{itemize}
+    \item \textbf{Issuer}: he has to be able to produce a signature that confirms who is 
+    issuing owns the DID (to certify his identity), other than to generate a VC.
+    This has to be made with the private key of that DID, and everyone can verify the signer's 
+    identity with the public key. After a discussion with the Monokee team, we decided to 
+    avoid implementing this unless we find something already done.
+    \item \textbf{Verifier}: he has to be able to verify a VC, which means he has to take it 
+    in input and verify it using the verification method described in the appropriate field. 
+    Also, to enhance trust, it should sign the verification result with the private key of 
+    its DID. Again, these functions could be hard to implement inside a smart contract, so we 
+    came to the same conclusion.
+\end{itemize}
+Our research uncovered two libraries: one for the leading and most used patterns and one 
+for the SSI features.\\
+The first one is an extensive collection of patterns and security standards developed by 
+\textbf{OpenZeppelin}. It ranges from the simplest things, such as a counter standard contract, to 
+the most complex, such as Ethereum Request for Comments (ERC) implementations (ERC-20 is 
+one of the most famous, and it is the standard for Ethereum fungible tokens)
+For example, we will use the ERC-721 implementation (Non-Fungible Tokens, or NFTs) to 
+implement one of the use cases.\\
+The second one is a suite of smart contracts that aims to bring SSI on-chain. It is called 
+\textbf{Verite} and is being developed by Centre (to give a background, Centre is the company
+that developed USDC, one of the leading stablecoins in the cryptocurrency market).
+As it stands, the library only contains a smart contract that serves as a verification 
+results registry, and we decided to take it and adapt it to our purposes.
+\vspace{0.3cm}\\
+Since, during our research, we did not find an implementation of on-chain issuer or verifier 
+agents, we decided to re-use already existing smart contract libraries and build some simple
+auxiliary smart contracts we needed in order to implement on-chain registries to at least 
+make some actions more immediate (like verifications and revocations).
