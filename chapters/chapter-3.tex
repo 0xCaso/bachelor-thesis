@@ -36,9 +36,12 @@ The final software structure has three main components:
     contracts emit ERC-721 tokens, which let the user request the diploma, but they 
     will not be discussed here.
 \end{itemize}
+In the \href{fig:structure}{\textbf{figure}} can be seen the visualization of the 
+system final architecture.
 \begin{center}
     \includegraphics[scale=0.23]{chapter3/structure.png}
     \captionof{figure}{Solution visual representation}
+    \label{fig:structure}
 \end{center}
 
 \clearpage
@@ -57,7 +60,7 @@ for both SSI Kit SDK and PoC.
     Typescript, so it would have been easier for the team to integrate. Also, it is 
     very convenient for its strongly typed nature;
     \item \texttt{JSON}: as already covered in \hyperref[subsubsec:json]{Chapter 2}, 
-    JSON is a lightweight data-interchange format. It has been extensively used,
+    \texttt{JSON} is a lightweight data-interchange format. It has been extensively used,
     mainly for credentials representation and API calls;
     \item \texttt{Node.js}: a JavaScript runtime built on Chrome's V8 JavaScript
     engine. It has been used for code execution;
@@ -67,12 +70,11 @@ for both SSI Kit SDK and PoC.
     used for tracking and collaboration purposes;
     \item \texttt{Visual Studio Code}: the Integrated Development Environment (IDE)
     we have used for the solution development.
-    
 \end{itemize}
 
-\subsubsection[SSI Kit SDK]{SSI Kit SDK\footnote{\texttt{uuid}, \texttt{rfc4648}, \texttt{sha256}, 
-and \texttt{nacl} have been used just to generate tokens used for credentials 
-revocation, as will be further explained}}
+\subsubsection[SSI Kit SDK]{SSI Kit SDK\footnote{\texttt{uuid}, \texttt{rfc4648}, 
+\texttt{sha256}, and \texttt{nacl} have been used just to generate tokens used for 
+credentials revocation, as can be reed \hyperref[method:isRevoked]{here}}}
 
 \begin{itemize}
     \setlength\itemsep{-0.1em}
@@ -87,7 +89,7 @@ revocation, as will be further explained}}
     Identifiers (UUIDs);
     \item \texttt{rfc4648}: a library used to encode and decode data in Base32 format;
     \item \texttt{sha256}: a library used to generate SHA-256 hashes;
-    \item \texttt{nacl}: a library used to decode UTF8 strings;
+    \item \texttt{nacl}: a library used to decode UTF8 \texttt{strings};
 \end{itemize}
 
 \subsubsection{Frontend}
@@ -123,14 +125,412 @@ revocation, as will be further explained}}
     calls them through API calls;
     \item \texttt{ssikit-sdk}: the developed Typescript SDK used to interact with
     the SSI Kit library.
-    \item \texttt{jose}: a library used to encode and decode JSON Web Tokens (JWTs),
+    \item \texttt{jose}: a library used to encode and decode \texttt{JSON} Web Tokens (JWTs),
     which have been used to represent private and public keys;
     \item \texttt{nodemon}: a tool that automatically restarts the node application
     when file changes in the directory are detected.
 \end{itemize}
 
 \subsection{SSI Kit SDK development}
-\subsection{Smart Contract integrations - Web App Proof of Concept}
+In this section we describe the SSI Kit SDK development, which is the core of the
+solution. The SDK is a Typescript wrapper of the waltid-ssikit library, which is
+written in Kotlin/Java. The SDK exposes all the functionalities of the library,
+and it is used by the frontend and the backend to interact with the SSI Kit.
+
+\subsubsection{walt.id SSI Kit}
+First, we need to know how to interact with it to understand how to build the SDK.
+The kit gives us three options:
+\begin{itemize}
+    \item \textbf{CLI Tool}: it offers a rich set of commands to run the entire functionality 
+    the SSI Kit provides. The CLI tool can be used by running the Docker container or
+    the executable by the local build.
+    \item \textbf{Dependency (JVM)}: it can be used directly as JVM-dependency via Maven or 
+    Gradle.
+    \item \textbf{REST API}: it can be run as a service, so an application can access its 
+    functionalities via REST API.
+\end{itemize}
+As we decided to build a Typescript SDK, the REST API is the most convenient way 
+to access the kit's functionalities: if we chose CLI, every time we call an SDK 
+method,  we should have fired a shell command translating the method execution, and 
+it would be the most uncomfortable option. The Dependency option, in addition, is 
+immediately discardable as we do not use Maven or Gradle (the application is not 
+Java/Kotlin based).\\
+The REST API service, instead, is very immediate to integrate into an SDK.
+In fact, we previously defined the SDK as a "wrapper" because the SDK methods (at 
+least, the great majority) forward their execution as an API call to the underlying 
+kit. This makes the interaction with the kit a lot easier for Javascript/Typescript 
+application based.
+\vspace*{0.3cm}\\
+Let us now describe how the SSI Kit API is structured to explain later the choices 
+made for the SDK development.
+\paragraph{Structure.}
+The API is divided in five main components:
+\begin{itemize}
+    \item \textbf{Signatory}: the component that manages the issuing and
+    revocation of verifiable credentials. Also, it can list the credential templates
+    used to issue them;
+    \item \textbf{Custodian}: gives a CRUD interface for keys, DIDs and credentials.
+    Here also can be generated VPs;
+    \item \textbf{Auditor}: enables the user to manage verification policies,
+    and verify any verifiable credential or presentation;
+    \item \textbf{ESSIF}: enables the user to interact with EBSI blockchain (e.g.,
+    register a DID);
+    \item \textbf{Bonus: Core API}: It is a set of functionalities chosen from the 
+    above components. However, the team writes in the documentation that it will not 
+    be maintained. For this reason we decided to not build a class for this component.
+\end{itemize}
+Assuming this, we can say it could be a good idea to build a class for each component 
+to organize the SDK better and separate the code.
+
+\subsubsection{SSI Kit Typescript SDK}
+After analyzing the SSI Kit structure, we can describe how we developed the SDK.
+As stated above, we decided to build a class for each SSI Kit component to modularize 
+the SDK. In every class, we put a method corresponding to an API call.\\
+For API calls, we use Axios, through which we perform a call in each SDK method. So 
+a good thing to do is to create a generalized function, called in every method, 
+without writing the same code where possible.
+\vspace{0.3cm}\\
+In the \hyperref[fig:callAPI]{figure} can be seen a snippet of the \texttt{callAPI}
+function, which is used to perform the API calls.
+\begin{center}
+    \includegraphics[scale=0.24]{chapter3/callAPIfunction.png}
+    \vspace{-0.3cm}
+    \captionof{figure}{Snippet of the callAPI function.}
+    \label{fig:callAPI}
+\end{center}
+\vspace{0.3cm}
+As input, it takes four parameters:
+\begin{itemize}
+    \item \texttt{type}: the HTTP method to use; it can be \texttt{"GET"}, \texttt{"POST"},
+    \texttt{"PUT"} or \texttt{"DELETE"};
+    \item \texttt{port}: the SSI Kit service needs to be run to use the SDK. It then makes
+    available four ports, which are used to access the different components of the
+    SSI Kit. The \texttt{port} parameter is used to specify which port to use; it can
+    be 
+    \begin{itemize}
+        \item \texttt{7001} (Signatory);
+        \item \texttt{7002} (Custodian);
+        \item \texttt{7003} (Auditor);
+        \item \texttt{7004} (ESSIF);
+        \item \texttt{8080} (Universal Resolver);
+    \end{itemize}
+    \item \texttt{url}: the URL of the API call (e.g., \texttt{"/v1/verify"} to call
+    the credentials verification method of the SSI Kit);
+    \item \texttt{params}: this is an optional parameter, which is used to pass
+    additional info to the call if needed.
+\end{itemize}
+The return type is generic, as there are many types of results (keys, DIDs, VCs,
+booleans, and more). Also, it can be seen that the two parameters \texttt{type} and
+\texttt{port} have user defined types. These types and the \texttt{apiCall} function 
+can be found inside the file \texttt{utils.ts}, which is a collection of types, 
+functions and interfaces used by the SDK, as we analyze in the next section.
+\vspace{0.3cm}\\
+For the most input/output object parameters of the API calls, we created interfaces
+to type them. This is useful to have a better understanding of the parameters, to 
+avoid errors and to facilitate the use of the SDK.\\
+For verifiable credentials, we did not, as their structure may change from istance
+to istance. We simply treat them as \texttt{JSON} objects.\\
+We could leave everything as a \texttt{JSON} object, but we decided to create interfaces for
+the most important objects. Leaving them as \texttt{JSON} objects would have been a bad idea,
+as it would have been difficult to understand what the parameters are and what they
+do. The only pro would have been to avoid the creation of interfaces, but we think
+that the cons are more important.
+
+\paragraph{Structure}
+The SDK is composed of five main classes. Four are the classes corresponding to the 
+four previously described components of the SSI Kit, and the fifth is the one dedicated
+to the Universal Resolver. Other than this, the SDK offers a \texttt{utils.ts} file.
+\vspace{0.3cm}\\
+The SSI Kit SDK splits into three main folders:
+\begin{itemize}
+    \item \texttt{core}: it contains the main classes of the SDK, which are the
+    ones that interact with the SSI Kit API; it also contains the \texttt{utils.ts}
+    file, which is a collection of types, functions, and interfaces used by the SDK,
+    and the \texttt{lib.ts} file, which contains two functions that perform multiple
+    SDK calls (e.g., \texttt{registerDIDOnEBSI} which performs the entire onboarding
+    procedure of a DID in the EBSI blockchain);
+    \item \texttt{interfaces}: it contains the interfaces used by the four SSI Kit
+    class implementations;
+    \item \texttt{tests}: it contains the tests of the SDK.
+\end{itemize}
+Everything (function, type, interface) with the \texttt{export} declaration gets exported by the \texttt{index.ts}
+file, which is the entry point of the SDK.
+
+\paragraph{Functionalities}
+After examining the SDK structure, the choices we made, and some technical detail, we can now 
+fully explain its functionalities.
+\begin{itemize}
+    \setlength{\itemsep}{1cm}
+
+    \item \textbf{Signatory}: this class serves as the issuer component in our
+    SSI model. It implements five methods:
+    \begin{itemize}
+        \setlength{\itemsep}{0.4cm}
+        \item[] \code{issueCredential}: issues a verifiable credential;
+        \begin{itemize}
+            \item \textbf{Params}: \texttt{IssueCredentialRequest}, which is an object where 
+            it is specified the template ID (chosen by those provided by the SSI Kit), the
+            credential data and the proof configuration;
+            \item \textbf{Returns}: a W3C Verifiable Credential in \texttt{JSON} format;
+        \end{itemize}
+        \item[] \code{getVCTemplateIDs}: returns the IDs of all the SDK templates;
+        \begin{itemize}
+            \item \textbf{Returns}: an \texttt{array} of \texttt{strings}, where each \texttt{string} is a template ID
+            (e.g., \texttt{"UniversityDegree"}); these templates are usable in the
+            \texttt{issueCredential} method;
+        \end{itemize}
+        \item[] \code{getVCTemplate}: it returns a specific template;
+        \begin{itemize}
+            \item \textbf{Params}: the \texttt{templateId} \texttt{string};
+            \item \textbf{Returns}: a verifiable credential template in \texttt{JSON} format;
+        \end{itemize}
+        \item[] \code{isRevoked}: checks if a verifiable credential is revoked;
+        \label{method:isRevoked}
+        \begin{itemize}
+            \item \textbf{Params}: the corresponding \texttt{publicRevocationToken};
+            \item \textbf{Returns}: the result of the check, which is an object with the
+            fields \texttt{revoked} (boolean) and \texttt{token} (\texttt{string});
+            \item \textbf{Notes}: the \texttt{publicRevocationToken} is findable
+            inside the \texttt{credentialStatus} field of the VC. When an issuer issues
+            a VC, the SDK generates a \texttt{private} and a \texttt{public} revocation token. 
+            The \texttt{private} has to be saved by the issuer, and can be used to revoke 
+            the credential. The \texttt{public} one is included in the VC, and everyone can 
+            use it to check if the VC has been revoked or not.
+        \end{itemize}
+        \begin{center}
+            \includegraphics[scale=0.22]{chapter3/revocation.png}
+            \captionof{figure}{The functions used to generate the revocation tokens (in 
+            \texttt{utils.ts}). The \texttt{baseToken} is the private one, and is a 
+            concatenation of two random UUIDs. The \texttt{publicToken} is the derived by
+            the \texttt{baseToken} in this manner: 
+            \texttt{base32(sha256(baseToken)).replaceAll("=", "")}}
+        \end{center}
+        \item[] \code{revokeCredential}: revokes a verifiable credential;
+        \begin{itemize}
+            \item \textbf{Params}: the \texttt{privateRevocationToken}, owned only by the 
+            issuer of that VC;
+            \item \textbf{Returns}: the revocation result, which is a \texttt{boolean} (if
+            \texttt{false}, something went wrong during the process).
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Custodian}: this class serves as the holder component in our
+    SSI model. It implements eighteen methods, and manages keys, DIDs and credentials:
+    \begin{itemize}
+        \setlength{\itemsep}{0.4cm}
+        \item[] \code{getKeys}: gets the keys in the holders's wallet;
+        \begin{itemize}
+            \item \textbf{Returns}: an \texttt{array} of \texttt{Key} objects, which are the keys
+            owned by the holder;
+        \end{itemize}
+        \item[] \code{getKey}: gets a specific key in the holder's wallet;
+        \begin{itemize}
+            \item \textbf{Params}: the \texttt{keyId} \texttt{string}, which is the key identifier;
+            \item \textbf{Returns}: the corresponding \texttt{Key} object;
+        \end{itemize}
+        \item[] \code{generateKey}: generates a new key;
+        \begin{itemize}
+            \item \textbf{Params}: the \texttt{keyAlgorithm} \texttt{string}, that specifies
+            the algorithm used to generate the key; the supported algorithms are 
+            \texttt{RSA}, \texttt{EdDSA\_Ed25519} and \texttt{EdDSA\_Secp256k1};
+            \item \textbf{Returns}: the generated \texttt{Key} object;
+        \end{itemize}
+        \item[] \code{deleteKey}: deletes a key from the holder's wallet;
+        \begin{itemize}
+            \item \textbf{Params}: the \texttt{key} parameter, which can be the \texttt{keyId}
+            \texttt{string} or the \texttt{Key} object;
+            \item \textbf{Returns}: the result of the deletion, which is a \texttt{boolean};
+        \end{itemize}
+        \item[] \code{exportKey}: exports a key (private or public) in the desired format;
+        \begin{itemize}
+            \item \textbf{Params}: the \texttt{key} parameter (\texttt{id string} or \texttt{Key} object),
+            the \texttt{format}, which can be \texttt{JWK} or \texttt{PEM}, and \texttt{exportPrivate}
+            (if \texttt{true}, the private key is exported, otherwise the public one);
+            \item \textbf{Returns}: the exported key in \texttt{JSON} format;
+        \end{itemize}
+        \item[] \code{importKey}: imports a key in the holder's wallet;
+        \begin{itemize}
+            \item \textbf{Params}: the \texttt{formattedKey} parameter (\texttt{JWK} or \texttt{PEM} format),
+            \item \textbf{Returns}: the \texttt{keyId} of the imported key;
+        \end{itemize}
+        \item[] \code{getDIDs}: gets the DIDs owned by the holder;
+        \begin{itemize}
+            \item \textbf{Returns}: an \texttt{array} of \texttt{DID strings};
+        \end{itemize}
+        \item[] \code{getDID}: gets a specific DID owned by the holder, from local storage;
+        \begin{itemize}
+            \item \textbf{Params}: the \texttt{did string};
+            \item \textbf{Returns}: the corresponding DID \texttt{JSON} with related metadata
+            (e.g., \texttt{verificationMethod}, used to verify the DID signature);
+        \end{itemize}
+        \item[] \code{createDID}: creates a new DID;
+        \begin{itemize}
+            \item \textbf{Params}: the \texttt{method} (\texttt{key}, \texttt{web} or \texttt{ebsi}),
+            the \texttt{key} (\texttt{object} or id \texttt{string}) used to generate the DID, and
+            two optionals (for \texttt{web} method): \texttt{didWebDomain} and \texttt{didWebPath};
+            \item \textbf{Returns}: the created DID \texttt{string};
+            \item \textbf{Notes}: the DID is in local, so in case of \texttt{ebsi} method
+            is needed the \texttt{ESSIF} class to register it on the blockchain;
+        \end{itemize}
+        \item[] \code{deleteDID}: deletes a DID from the holder's wallet;
+        \begin{itemize}
+            \item \textbf{Params}: the \texttt{DID} (\texttt{string} or \texttt{object});
+            \item \textbf{Returns}: the result of the deletion, which is a \texttt{boolean};
+        \end{itemize}
+        \item[] \code{resolveDID}: resolves a DID (in case of \texttt{ebsi} method, it is
+        searched on-chain);
+        \begin{itemize}
+            \item \textbf{Params}: the \texttt{DID string};
+            \item \textbf{Returns}: the resolved DID \texttt{JSON} with related metadata;
+        \end{itemize}
+        \item[] \code{importDID}: resolves and then imports a DID in the holder's wallet;
+        \begin{itemize}
+            \item \textbf{Params}: the \texttt{DID string};
+            \item \textbf{Returns}: the import result, which is a \texttt{boolean};
+        \end{itemize}
+        \item[] \code{getCredentials}: gets the credentials owned by the holder;
+        \begin{itemize}
+            \item \textbf{Returns}: an \texttt{array} of credentials in \texttt{JSON} format;
+        \end{itemize}
+        \item[] \code{getCredential}: gets a specific credential owned by the holder;
+        \begin{itemize}
+            \item \textbf{Params}: the \texttt{alias} of the credential (e.g., \texttt{passport});
+            \item \textbf{Returns}: the credential in \texttt{JSON} format;
+        \end{itemize}
+        \item[] \code{getCredentialIDs}: gets the credential IDs (aliases) owned by the holder;
+        \begin{itemize}
+            \item \textbf{Returns}: an \texttt{array} of credential IDs (\texttt{strings});
+        \end{itemize}
+        \item[] \code{storeCredential}: stores a credential in the holder's wallet;
+        \begin{itemize}
+            \item \textbf{Params}: the the credential's desired \texttt{alias} and the
+            \texttt{credential object};
+            \item \textbf{Returns}: the storage result, which is a \texttt{boolean};
+        \end{itemize}
+        \item[] \code{deleteCredential}: deletes a credential from the holder's wallet;
+        \begin{itemize}
+            \item \textbf{Params}: the \texttt{alias} of the credential;
+            \item \textbf{Returns}: the deletion result, which is a \texttt{boolean};
+        \end{itemize}
+        \item[] \code{presentCredentials}: returns the presentation of one or more VCs;
+        \begin{itemize}
+            \item \textbf{Params}: the \texttt{PresentationRequest} object;
+            \item \textbf{Returns}: the \texttt{Presentation} in \texttt{JSON} format;
+            \item \textbf{Notes}: the \texttt{PresentationRequest} object is a union of two
+            types, \texttt{PresentCredentialsRequest} and \texttt{PresentCredentialIDsRequest};
+            in this way, a user can chose to pass the credentials or their IDs; other \texttt{object}
+            fields are the \texttt{holderDID}, the \texttt{verifierDID}, and more;
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Auditor}: this class serves as the verifier component in our
+    SSI model. It implements four methods:
+    \begin{itemize}
+        \setlength{\itemsep}{0.4cm}
+        \item[] \code{getVerificationPolicies}: gets the verification policies, usable
+        to verify the credentials;
+        \begin{itemize}
+            \item \textbf{Returns}: an \texttt{array} of \texttt{JSON} objects;
+        \end{itemize}
+        \item[] \code{verifyCredential}: verifies one or more VCs/VPs;
+        \begin{itemize}
+            \item \textbf{Params}: the \texttt{VerificationRequest} object, composed by two fields:
+            \texttt{credentials} and \texttt{policies};
+            \item \textbf{Returns}: the \texttt{VerificationResponse}  object 
+            in \texttt{JSON} format (fields: \texttt{valid}, \texttt{results});
+        \end{itemize}
+        \item[] \code{createDynamicVerificationPolicy}: creates a verification policy
+        usable to verify the credentials;
+        \begin{itemize}
+            \item \textbf{Params}: the desired \texttt{name}, the \texttt{DynamicPolicyArg} object,
+            and two optionals: \texttt{update} (to make it updatable) and 
+            \texttt{downloadPolicy} (this depends by \texttt{DynamicPolicyArg});
+            \item \textbf{Returns}: the creation result, which is a \texttt{boolean};
+        \end{itemize}
+        \item[] \code{deleteDynamicVerificationPolicy}: deletes a verification policy (just
+        if it has been created by the user);
+        \begin{itemize}
+            \item \textbf{Params}: the \texttt{name} of the policy;
+            \item \textbf{Returns}: the deletion result, which is a \texttt{boolean};
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{ESSIF}: it enables the user to interact with EBSI blockchain (e.g.,
+    register a DID);
+    \begin{itemize}
+        \setlength{\itemsep}{0.4cm}
+        \item[] \code{onboard}: first step required for a DID registration on EBSI;
+        \begin{itemize}
+            \item \textbf{Params}: the \texttt{bearerToken}, obtainable from the ebsi
+            website, and the \texttt{DID} (\texttt{string} or \texttt{object}) to onboard;
+            \item \textbf{Returns}: the VC of the onboarding, or \texttt{false} if the
+            onboarding fails;
+        \end{itemize}
+        \item[] \code{auth}: second step required for a DID registration on EBSI;
+        \begin{itemize}
+            \item \textbf{Params}: the \texttt{DID} (\texttt{string} or \texttt{object}) to auth;
+            \item \textbf{Returns}: the authentication result, which is a \texttt{boolean};
+        \end{itemize}
+        \item[] \code{registerDID}: last step required for a DID registration on EBSI;
+        \begin{itemize}
+            \item \textbf{Params}: the \texttt{DID} (\texttt{string} or \texttt{object}) to register;
+            \item \textbf{Returns}: the registration result, which is a \texttt{boolean};
+        \end{itemize}
+        \item[] \code{getTimestampByID}: gets the timestamp of a specific transaction;
+        \begin{itemize}
+            \item \textbf{Params}: the \texttt{transactionID} (\texttt{string});
+            \item \textbf{Returns}: the timestamp in \texttt{JSON} format;
+            \item \textbf{Notes}: a timestamp example can be seen in the 
+            \hyperref[fig:timestamp]{figure}.
+        \end{itemize}
+        \begin{center}
+            \includegraphics[scale=0.2]{chapter3/timestamp.png}
+            \captionof{figure}{EBSI transaction timestamp example}
+            \label{fig:timestamp}
+        \end{center}
+        \item[] \code{getTimestampByTXHash}: gets the timestamp of a specific transaction;
+        \begin{itemize}
+            \item \textbf{Params}: the \texttt{txHash} (\texttt{string});
+            \item \textbf{Returns}: the timestamp in \texttt{JSON} format;
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Universal Resolver}: enables the resolution of DID registered in
+    other blockchains than EBSI;
+    \begin{itemize}
+        \item[] \code{resolveDID}: resolves a DID;
+        \begin{itemize}
+            \item \textbf{Params}: the \texttt{DID} (\texttt{string});
+            \item \textbf{Returns}: the resolved DID in \texttt{JSON} format;
+            \item \textbf{Notes}: to see the complete list of supported blockchains,
+            refer to the \href{https://github.com/decentralized-identity/universal-resolver}
+            {official repository}.
+        \end{itemize} 
+    \end{itemize}
+
+    \item \textbf{utils.ts}: in this files can be found utilities used in the SDK, but that
+    can be also used by the users, such as:
+    \begin{itemize}
+        \item \textbf{types}, used to enhance the readability of the code, to avoid errors and to
+        make the SDK easier to use;
+        \item \textbf{consts}, expecially for the API ports;
+        \item \textbf{interfaces}, to define the structure of the objects used as input or
+        output of the API calls, this way the user can easily understand the structure of
+        the objects, and does not need to refer to the documentation each time;
+        \item \textbf{functions}, such as \texttt{callAPI} (already \hyperref[fig:callAPI]
+        {explained}) or \texttt{getId}, used by the SDK to get the ID of a key or DID.
+    \end{itemize}
+    
+    \item \textbf{lib.ts}: here are placed functions that use multiple SDK methods also from
+    different classes. Only two functions have been written so far, and almost only for
+    testing purposes, but they can be used by the user as well, and there can be added more 
+    in the future if needed.
+    
+\end{itemize}
+
+\paragraph{Problems and difficulties found}
+
+\subsection{Web Application Proof of Concept}
 
 \section{Discussion}
 \subsection{Achievements}
