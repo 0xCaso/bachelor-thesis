@@ -18,11 +18,13 @@ SSI purposes}, which store the DIDs, credentials schema, verification policies,
 and more.
 \begin{center}
     \includegraphics[scale=0.28]{chapter3/problem_schema.png}
-    \captionof{figure}{Ideally, Monokee will have its own DID method (did:monokee), 
-    through which will be generated identifiers that will hide (at least, as far as 
-    the user is concerned) the blockchain where it is located.}
+    \captionof{figure}{Monokee ideal scenario}
 \end{center}
 \vspace*{0.5cm}
+Figure 3.1 shows the ideal scenario, where Monokee will have its own DID method
+(did:monokee), through which will be generated identifiers that will hide (at least,
+as far as the user is concerned) the blockchain where it is located.
+\vspace*{0.3cm}\\
 The final software structure has three main components:
 \begin{itemize}
     \item \textbf{Frontend}: it allows the user to interact with the system's core 
@@ -36,10 +38,9 @@ The final software structure has three main components:
     contracts emit ERC-721 tokens, which let the user request the diploma, but they 
     will not be discussed here.
 \end{itemize}
-In the \href{fig:structure}{\textbf{figure}} can be seen the visualization of the 
-system final architecture.
+Figure 3.2 shows the system final architecture visualization.
 \begin{center}
-    \includegraphics[scale=0.23]{chapter3/structure.png}
+    \includegraphics[scale=0.28]{chapter3/structure.png}
     \captionof{figure}{Solution visual representation}
     \label{fig:structure}
 \end{center}
@@ -190,15 +191,15 @@ For API calls, we use Axios, through which we perform a call in each SDK method.
 a good thing to do is to create a generalized function, called in every method, 
 without writing the same code where possible.
 \vspace{0.3cm}\\
-In the \hyperref[fig:callAPI]{figure} can be seen a snippet of the \texttt{callAPI}
-function, which is used to perform the API calls.
+Figure 3.3 shows a snippet of the \texttt{callAPI} function, which is used to perform
+the API calls.
 \begin{center}
     \includegraphics[scale=0.24]{chapter3/callAPIfunction.png}
-    \vspace{-0.3cm}
+    \vspace{-0.5cm}
     \captionof{figure}{Snippet of the callAPI function.}
     \label{fig:callAPI}
 \end{center}
-\vspace{0.3cm}
+\vspace{0.5cm}
 As input, it takes four parameters:
 \begin{itemize}
     \item \texttt{type}: the HTTP method to use; it can be \texttt{"GET"}, \texttt{"POST"},
@@ -271,18 +272,18 @@ fully explain its functionalities.
             \item \textbf{Params}: \texttt{IssueCredentialRequest}, which is an object where 
             it is specified the template ID (chosen by those provided by the SSI Kit), the
             credential data and the proof configuration;
-            \item \textbf{Returns}: a W3C Verifiable Credential in \texttt{JSON} format;
+            \item \textbf{Returns}: a W3C Verifiable Credential in \texttt{JSON} format.
         \end{itemize}
         \item[] \code{getVCTemplateIDs}: returns the IDs of all the SDK templates;
         \begin{itemize}
             \item \textbf{Returns}: an \texttt{array} of \texttt{strings}, where each \texttt{string} is a template ID
             (e.g., \texttt{"UniversityDegree"}); these templates are usable in the
-            \texttt{issueCredential} method;
+            \texttt{issueCredential} method.
         \end{itemize}
         \item[] \code{getVCTemplate}: it returns a specific template;
         \begin{itemize}
             \item \textbf{Params}: the \texttt{templateId} \texttt{string};
-            \item \textbf{Returns}: a verifiable credential template in \texttt{JSON} format;
+            \item \textbf{Returns}: a verifiable credential template in \texttt{JSON} format.
         \end{itemize}
         \item[] \code{isRevoked}: checks if a verifiable credential is revoked;
         \label{method:isRevoked}
@@ -291,20 +292,24 @@ fully explain its functionalities.
             \item \textbf{Returns}: the result of the check, which is an object with the
             fields \texttt{revoked} (boolean) and \texttt{token} (\texttt{string});
             \item \textbf{Notes}: the \texttt{publicRevocationToken} is findable
-            inside the \texttt{credentialStatus} field of the VC. When an issuer issues
+            inside the \texttt{\seqsplit{credentialStatus}} field of the VC. When an issuer issues
             a VC, the SDK generates a \texttt{private} and a \texttt{public} revocation token. 
             The \texttt{private} has to be saved by the issuer, and can be used to revoke 
             the credential. The \texttt{public} one is included in the VC, and everyone can 
-            use it to check if the VC has been revoked or not.
-        \end{itemize}
-        \begin{center}
-            \includegraphics[scale=0.22]{chapter3/revocation.png}
-            \captionof{figure}{The functions used to generate the revocation tokens (in 
+            use it to check if the VC has been revoked or not. Figure 3.4 shows the functions
+            used to generate the revocation tokens (in 
             \texttt{utils.ts}). The \texttt{baseToken} is the private one, and is a 
             concatenation of two random UUIDs. The \texttt{publicToken} is the derived by
             the \texttt{baseToken} in this manner: 
-            \texttt{base32(sha256(baseToken)).replaceAll("=", "")}}
+            \texttt{base32(sha256(baseToken)).replaceAll("=", "").}
+        \end{itemize}
+        \begin{center}
+            \hspace{-1.5cm}
+            \includegraphics[scale=0.22]{chapter3/revocation.png}
+            \vspace{-0.3cm}
+            \captionof{figure}{Revocation tokens functions snippet}
         \end{center}
+        \vspace{0.3cm}
         \item[] \code{revokeCredential}: revokes a verifiable credential;
         \begin{itemize}
             \item \textbf{Params}: the \texttt{privateRevocationToken}, owned only by the 
@@ -321,47 +326,47 @@ fully explain its functionalities.
         \item[] \code{getKeys}: gets the keys in the holders's wallet;
         \begin{itemize}
             \item \textbf{Returns}: an \texttt{array} of \texttt{Key} objects, which are the keys
-            owned by the holder;
+            owned by the holder.
         \end{itemize}
         \item[] \code{getKey}: gets a specific key in the holder's wallet;
         \begin{itemize}
             \item \textbf{Params}: the \texttt{keyId} \texttt{string}, which is the key identifier;
-            \item \textbf{Returns}: the corresponding \texttt{Key} object;
+            \item \textbf{Returns}: the corresponding \texttt{Key} object.
         \end{itemize}
         \item[] \code{generateKey}: generates a new key;
         \begin{itemize}
             \item \textbf{Params}: the \texttt{keyAlgorithm} \texttt{string}, that specifies
             the algorithm used to generate the key; the supported algorithms are 
             \texttt{RSA}, \texttt{EdDSA\_Ed25519} and \texttt{EdDSA\_Secp256k1};
-            \item \textbf{Returns}: the generated \texttt{Key} object;
+            \item \textbf{Returns}: the generated \texttt{Key} object.
         \end{itemize}
         \item[] \code{deleteKey}: deletes a key from the holder's wallet;
         \begin{itemize}
             \item \textbf{Params}: the \texttt{key} parameter, which can be the \texttt{keyId}
             \texttt{string} or the \texttt{Key} object;
-            \item \textbf{Returns}: the result of the deletion, which is a \texttt{boolean};
+            \item \textbf{Returns}: the result of the deletion, which is a \texttt{boolean}.
         \end{itemize}
         \item[] \code{exportKey}: exports a key (private or public) in the desired format;
         \begin{itemize}
             \item \textbf{Params}: the \texttt{key} parameter (\texttt{id string} or \texttt{Key} object),
             the \texttt{format}, which can be \texttt{JWK} or \texttt{PEM}, and \texttt{exportPrivate}
             (if \texttt{true}, the private key is exported, otherwise the public one);
-            \item \textbf{Returns}: the exported key in \texttt{JSON} format;
+            \item \textbf{Returns}: the exported key in \texttt{JSON} format.
         \end{itemize}
         \item[] \code{importKey}: imports a key in the holder's wallet;
         \begin{itemize}
             \item \textbf{Params}: the \texttt{formattedKey} parameter (\texttt{JWK} or \texttt{PEM} format),
-            \item \textbf{Returns}: the \texttt{keyId} of the imported key;
+            \item \textbf{Returns}: the \texttt{keyId} of the imported key.
         \end{itemize}
         \item[] \code{getDIDs}: gets the DIDs owned by the holder;
         \begin{itemize}
-            \item \textbf{Returns}: an \texttt{array} of \texttt{DID strings};
+            \item \textbf{Returns}: an \texttt{array} of \texttt{DID strings}.
         \end{itemize}
         \item[] \code{getDID}: gets a specific DID owned by the holder, from local storage;
         \begin{itemize}
             \item \textbf{Params}: the \texttt{did string};
             \item \textbf{Returns}: the corresponding DID \texttt{JSON} with related metadata
-            (e.g., \texttt{verificationMethod}, used to verify the DID signature);
+            (e.g., \texttt{verificationMethod}, used to verify the DID signature).
         \end{itemize}
         \item[] \code{createDID}: creates a new DID;
         \begin{itemize}
@@ -370,47 +375,47 @@ fully explain its functionalities.
             two optionals (for \texttt{web} method): \texttt{didWebDomain} and \texttt{didWebPath};
             \item \textbf{Returns}: the created DID \texttt{string};
             \item \textbf{Notes}: the DID is in local, so in case of \texttt{ebsi} method
-            is needed the \texttt{ESSIF} class to register it on the blockchain;
+            is needed the \texttt{ESSIF} class to register it on the blockchain.
         \end{itemize}
         \item[] \code{deleteDID}: deletes a DID from the holder's wallet;
         \begin{itemize}
             \item \textbf{Params}: the \texttt{DID} (\texttt{string} or \texttt{object});
-            \item \textbf{Returns}: the result of the deletion, which is a \texttt{boolean};
+            \item \textbf{Returns}: the result of the deletion, which is a \texttt{boolean}.
         \end{itemize}
         \item[] \code{resolveDID}: resolves a DID (in case of \texttt{ebsi} method, it is
         searched on-chain);
         \begin{itemize}
             \item \textbf{Params}: the \texttt{DID string};
-            \item \textbf{Returns}: the resolved DID \texttt{JSON} with related metadata;
+            \item \textbf{Returns}: the resolved DID \texttt{JSON} with related metadata.
         \end{itemize}
         \item[] \code{importDID}: resolves and then imports a DID in the holder's wallet;
         \begin{itemize}
             \item \textbf{Params}: the \texttt{DID string};
-            \item \textbf{Returns}: the import result, which is a \texttt{boolean};
+            \item \textbf{Returns}: the import result, which is a \texttt{boolean}.
         \end{itemize}
         \item[] \code{getCredentials}: gets the credentials owned by the holder;
         \begin{itemize}
-            \item \textbf{Returns}: an \texttt{array} of credentials in \texttt{JSON} format;
+            \item \textbf{Returns}: an \texttt{array} of credentials in \texttt{JSON} format.
         \end{itemize}
         \item[] \code{getCredential}: gets a specific credential owned by the holder;
         \begin{itemize}
             \item \textbf{Params}: the \texttt{alias} of the credential (e.g., \texttt{passport});
-            \item \textbf{Returns}: the credential in \texttt{JSON} format;
+            \item \textbf{Returns}: the credential in \texttt{JSON} format.
         \end{itemize}
         \item[] \code{getCredentialIDs}: gets the credential IDs (aliases) owned by the holder;
         \begin{itemize}
-            \item \textbf{Returns}: an \texttt{array} of credential IDs (\texttt{strings});
+            \item \textbf{Returns}: an \texttt{array} of credential IDs (\texttt{strings}).
         \end{itemize}
         \item[] \code{storeCredential}: stores a credential in the holder's wallet;
         \begin{itemize}
             \item \textbf{Params}: the the credential's desired \texttt{alias} and the
             \texttt{credential object};
-            \item \textbf{Returns}: the storage result, which is a \texttt{boolean};
+            \item \textbf{Returns}: the storage result, which is a \texttt{boolean}.
         \end{itemize}
         \item[] \code{deleteCredential}: deletes a credential from the holder's wallet;
         \begin{itemize}
             \item \textbf{Params}: the \texttt{alias} of the credential;
-            \item \textbf{Returns}: the deletion result, which is a \texttt{boolean};
+            \item \textbf{Returns}: the deletion result, which is a \texttt{boolean}.
         \end{itemize}
         \item[] \code{presentCredentials}: returns the presentation of one or more VCs;
         \begin{itemize}
@@ -419,7 +424,7 @@ fully explain its functionalities.
             \item \textbf{Notes}: the \texttt{PresentationRequest} object is a union of two
             types, \texttt{PresentCredentialsRequest} and \texttt{PresentCredentialIDsRequest};
             in this way, a user can choose to pass the credentials or their IDs; other \texttt{object}
-            fields are the \texttt{holderDID}, the \texttt{verifierDID}, and more;
+            fields are the \texttt{holderDID}, the \texttt{verifierDID}, and more.
         \end{itemize}
     \end{itemize}
 
@@ -430,14 +435,14 @@ fully explain its functionalities.
         \item[] \code{getVerificationPolicies}: gets the verification policies, usable
         to verify the credentials;
         \begin{itemize}
-            \item \textbf{Returns}: an \texttt{array} of \texttt{JSON} objects;
+            \item \textbf{Returns}: an \texttt{array} of \texttt{JSON} objects.
         \end{itemize}
         \item[] \code{verifyCredential}: verifies one or more VCs/VPs;
         \begin{itemize}
             \item \textbf{Params}: the \texttt{VerificationRequest} object, composed by two fields:
             \texttt{credentials} and \texttt{policies};
             \item \textbf{Returns}: the \texttt{VerificationResponse}  object 
-            in \texttt{JSON} format (fields: \texttt{valid}, \texttt{results});
+            in \texttt{JSON} format (fields: \texttt{valid}, \texttt{results}).
         \end{itemize}
         \item[] \code{createDynamicVerificationPolicy}: creates a verification policy
         usable to verify the credentials;
@@ -445,13 +450,13 @@ fully explain its functionalities.
             \item \textbf{Params}: the desired \texttt{name}, the \texttt{DynamicPolicyArg} object,
             and two optionals: \texttt{update} (to make it updatable) and 
             \texttt{downloadPolicy} (this depends by \texttt{DynamicPolicyArg});
-            \item \textbf{Returns}: the creation result, which is a \texttt{boolean};
+            \item \textbf{Returns}: the creation result, which is a \texttt{boolean}.
         \end{itemize}
         \item[] \code{deleteDynamicVerificationPolicy}: deletes a verification policy (just
         if it has been created by the user);
         \begin{itemize}
             \item \textbf{Params}: the \texttt{name} of the policy;
-            \item \textbf{Returns}: the deletion result, which is a \texttt{boolean};
+            \item \textbf{Returns}: the deletion result, which is a \texttt{boolean}.
         \end{itemize}
     \end{itemize}
 
@@ -464,34 +469,37 @@ fully explain its functionalities.
             \item \textbf{Params}: the \texttt{bearerToken}, obtainable from the ebsi
             website, and the \texttt{DID} (\texttt{string} or \texttt{object}) to onboard;
             \item \textbf{Returns}: the VC of the onboarding, or \texttt{false} if the
-            onboarding fails;
+            onboarding fails.
         \end{itemize}
         \item[] \code{auth}: second step required for a DID registration on EBSI;
         \begin{itemize}
             \item \textbf{Params}: the \texttt{DID} (\texttt{string} or \texttt{object}) to auth;
-            \item \textbf{Returns}: the authentication result, which is a \texttt{boolean};
+            \item \textbf{Returns}: the authentication result, which is a \texttt{boolean}.
         \end{itemize}
         \item[] \code{registerDID}: last step required for a DID registration on EBSI;
         \begin{itemize}
             \item \textbf{Params}: the \texttt{DID} (\texttt{string} or \texttt{object}) to register;
-            \item \textbf{Returns}: the registration result, which is a \texttt{boolean};
+            \item \textbf{Returns}: the registration result, which is a \texttt{boolean}.
         \end{itemize}
         \item[] \code{getTimestampByID}: gets the timestamp of a specific transaction;
         \begin{itemize}
             \item \textbf{Params}: the \texttt{transactionID} (\texttt{string});
             \item \textbf{Returns}: the timestamp in \texttt{JSON} format;
-            \item \textbf{Notes}: a timestamp example can be seen in the 
-            \hyperref[fig:timestamp]{figure}.
+            \item \textbf{Notes}: Figure 3.5 shows a timestamp example.
         \end{itemize}
+        \clearpage
         \begin{center}
-            \includegraphics[scale=0.2]{chapter3/timestamp.png}
-            \captionof{figure}{EBSI transaction timestamp example}
             \label{fig:timestamp}
+            \hspace{-1.8cm}
+            \includegraphics[scale=0.2]{chapter3/timestamp.png}
+            \vspace{-0.3cm}
+            \captionof{figure}{EBSI transaction timestamp example}
         \end{center}
+        \vspace{0.6cm}
         \item[] \code{getTimestampByTXHash}: gets the timestamp of a specific transaction;
         \begin{itemize}
             \item \textbf{Params}: the \texttt{txHash} (\texttt{string});
-            \item \textbf{Returns}: the timestamp in \texttt{JSON} format;
+            \item \textbf{Returns}: the timestamp in \texttt{JSON} format.
         \end{itemize}
     \end{itemize}
 
@@ -538,8 +546,7 @@ documentation (at least, the schema was specified but not the true meaning of sp
 fields). This way, the only manner to go on was to analyze the SSI Kit source code
  (this meant knowing a minimum of Kotlin) or contact the team on Slack.\\
 Finally, a minor bug in the Custodian component was found during the SDK development.
-It has been reported, and the team fixed it in a week.\\
-In the 
+It has been reported, and the team fixed it in a week.
 
 \paragraph{Tests.}
 The SDK's main components have been tested, focusing on the SSI Kit's four classes 
@@ -581,7 +588,7 @@ just because some operations would not have been secure if done in the frontend,
 something could not be done here because of compatibility issues (browser do not 
 support all the cryptographic functions, as we explain later).
 
-\paragraph{Frontend}
+\paragraph{Frontend.}
 The frontend breaks down into six main pages:
 \begin{itemize}
     \item \textbf{Holder}: provides a complete interface for the SDK \texttt{Custodian}
@@ -620,7 +627,7 @@ The frontend breaks down into six main pages:
 Finally, the application provides the user a web3 wallet connector, so he can interact
 with the smart contracts where needed.
 
-\paragraph{Backend}
+\paragraph{Backend.}
 We needed to add a backend to our application for two important reasons:
 \begin{enumerate}
     \item \textbf{Security}: the frontend is not secure enough to handle cryptographic
@@ -644,7 +651,7 @@ We needed to add a backend to our application for two important reasons:
     Unfortunately, this API does not support the Secp256k1 curve, so we have been 
     forced to move this logic to the backend. 
 \end{enumerate}
-\clearpage
+
 \subsubsection{Functionalities}
 We now examine what the two main components of the web application, frontend, and 
 backend, offer (obviously, the frontend offers functionalities to users, and the 
@@ -653,7 +660,7 @@ backend serves only the frontend).
 Now we show all the functionalities provided by each previously explained frontend's 
 page.
 \subparagraph{Holder.} This page is divided into three sections: \texttt{Keys}, 
-\texttt{DIDs} and \texttt{Credentials};
+\texttt{DIDs} and \texttt{Credentials}; Figure 3.9 shows the page screenshot.
 \begin{center}
     \begin{tcolorbox}[
         beamer,
@@ -664,6 +671,7 @@ page.
         ]
     \includegraphics[width=\linewidth]{chapter3/frontend/holder.png}
     \end{tcolorbox}
+    \vspace{-0.3cm}
     \captionof{figure}{The \texttt{Holder} page (\texttt{Keys} section)}
 \end{center}
 In the \texttt{Keys} section inside the \texttt{Holder} page, a user can:
@@ -698,9 +706,9 @@ In the \texttt{Credentials} section, a user can:
     \item Delete all the credentials, by pressing the button \texttt{Delete All Credentials};
 \end{itemize}
 
-\vspace{1cm}
+\clearpage
 \subparagraph{Issuer.} This page is divided into two sections: \texttt{Issue}
-and \texttt{Revocations};
+and \texttt{Revocations}; Figure 3.10 shows the page screenshot.
 \begin{center}
     \begin{tcolorbox}[
         beamer,
@@ -728,9 +736,9 @@ frontend) that would change the verification record (however, the function is
 implemented in the smart contract). Also, anyone can check if the credential has been
 revoked by inserting the corresponding public revocation token.
 
-\vspace{1cm}
+\clearpage
 \subparagraph{Verifier.} This page is divided into two sections: \texttt{Verifications}
-and \texttt{Verifiers};
+and \texttt{Verifiers}; Figure 3.11 shows the page screenshot.
 \begin{center}
     \begin{tcolorbox}[
         beamer,
@@ -765,7 +773,7 @@ happened), but for time reasons, we have only implemented the verification recor
 registration.
 
 \clearpage
-\subparagraph{Contracts.} In the underlying image can be seen the page screenshot.
+\subparagraph{Contracts.} Figure 3.12 shows the page screenshot.
 \begin{center}
     \begin{tcolorbox}[
         beamer,
@@ -783,7 +791,7 @@ in the on-chain list. Anyone can see the list of contracts and search for
 a specific one.
 
 \vspace{1cm}
-\subparagraph{Diploma.} In the underlying image can be seen the page screenshot.
+\subparagraph{Diploma.} Figure 3.13 shows the page screenshot.
 \begin{center}
     \begin{tcolorbox}[
         beamer,
@@ -809,7 +817,7 @@ as they are examination subjects of another student's thesis.}:
 \end{itemize}
 
 \vspace{1cm}
-\subparagraph{EBSI.} In the underlying image can be seen the page screenshot.
+\subparagraph{EBSI.} Figure 3.14 shows the page screenshot.
 \begin{center}
     \begin{tcolorbox}[
         beamer,
@@ -830,7 +838,7 @@ the process needs three steps, but the user sees only one.
 
 \clearpage
 \paragraph{Backend.}
-The backend is implemented as a REST API. We used it to implement the creation 
+The backend is designed as a REST API. We used it to implement the creation 
 and verification of the signatures made by the verifiers when they register 
 on-chain a verification record.
 \vspace{0.3cm}\\
@@ -857,7 +865,7 @@ The functions made available to the frontend are two:
 
 \subsubsection{Problems and difficulties found}
 Generally, we have not found crucial problems during the PoC development. The only 
-difficulty found was the signature creation; it took a while for us to find the real 
+difficulty was the signature creation; it took a while to find the real 
 problem (i.e., the \texttt{Secp256k1} curve incompatibility with the W3C Web 
 Cryptography API). Also, we had to compromise: verifiers, to generate the signature, 
 can only use DID created with the \texttt{ebsi} method (so also with \texttt{Secp256k1}
@@ -865,7 +873,54 @@ curve). The \texttt{/verifySignature} has to be revisited to enhance interoperab
 with other methods and encryption algorithms.
 
 \section{Discussion}
+In this last section, we discuss the last considerations about the final result, what 
+can be done to improve the solution, and some personal thoughts.
+
 \subsection{Achievements}
+We partially merged the off-chain and on-chain solutions. The verifier integration works well,
+also from a security point of view, thanks to the signatures implementation.\\
+Thanks to the existing standards (which are in development), we created a system where 
+users can own their credentials. We created an SDK that simplifies the interaction with 
+SSI primitives, a smart contract suite that reflects on-chain the off-chain events, and 
+the proof of concept web application gives an idea of what a user can do with the final 
+solution.
+So objectively, we reached a satisfying grade of requirements fulfillment, as initially
+we were not sure about the possibilities.
+
 \subsection{Acquired knowledge}
+
 \subsection{Future developments}
+It is obvious to remark that we are only at the beginning of SSI solutions development. 
+Standards are being defined now, and developers do not know the right path to pursue 
+since it is an exploration.
+There can be many future developments for these solutions and the SSI model, especially
+for seamless integration with permissionless blockchains. Let us divide them into two 
+categories: PoC improvements and SSI challenges.
+\subsubsection{PoC improvements}
+Some of the possible PoC improvements are:
+\begin{itemize}
+    \item \textbf{Revocations}: they could be forced to be instantly reflected on-chain
+    with a smart contract call after the revocation is made on the off-chain side, as
+    is already done for verifications;
+    \item \textbf{Diploma issuance}: when a user consumes the Request NFT, the university
+    should be able to see it from the frontend and issue the diploma in a guided and
+    easier way provided by the \texttt{Issuer} page;
+    \item \textbf{Issuer}: the \texttt{Issue} section could be significantly improved from
+    a UX perspective, as it is now a basic form, easy to use just for a developer who
+    knows what he is doing;
+    \item \textbf{Secure communication protocols}: a thing that we did not implement is the
+    secure verifiable credential exchange. Fortunately, walt.id kits provide API to
+    implement this feature, so it is possible to add it in the future also using those kits;
+    \item \textbf{On-chain DID signature check}: it could be helpful to move the signature 
+    verification (now provided by the frontend through \code{/verifySignature}) to the 
+    smart contract level when a verification record is being created;
+    in this way, the transaction could be reverted if the signature is not valid (i.e., 
+    the verifier is not signing with the DID private key), and no one should check if 
+    the signature is valid as if it is on-chain it is valid;
+    \item \textbf{Sign with new DID methods}: currently, the only DID method supported 
+    for the signature creation, and so for the verifiers' functions, is \texttt{ebsi}; 
+    at least should be added the \texttt{key} method, to enhance the product usability.
+\end{itemize}
+\subsubsection{SSI challenges}
+
 \subsection{Personal evaluation}
