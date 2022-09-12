@@ -8,8 +8,8 @@ and the technologies we leveraged. Then, we outline the final achievements
 and what can be done to enhance the PoC potential.
 \section{Solution proposal}
 After the conducted analysis in the first two weeks, we concluded that building a 
-new system from zero would have needed too much time and effort and especially would 
-have required specific skills we did not have.\\
+new system from zero would have needed too much time and effort, and especially would 
+have required specific advanced skills we did not have.\\
 First, we recall that we are building agents for verifiable credentials interaction. 
 In a full stack product, our solution is placed between the users, who use secure 
 communication protocols\footnote{For example, OAuth or OIDC, as can be seen in the
@@ -236,7 +236,7 @@ as it would have been difficult to understand what the parameters are and what t
 do. The only pro would have been to avoid the creation of interfaces, but we think
 that the cons are more important.
 
-\paragraph{Structure}
+\paragraph{Structure.}
 The SDK is composed of five main classes. Four are the classes corresponding to the 
 four previously described components of the SSI Kit, and the fifth is the one dedicated
 to the Universal Resolver. Other than this, the SDK offers a \texttt{utils.ts} file.
@@ -256,7 +256,7 @@ The SSI Kit SDK splits into three main folders:
 Everything (function, type, interface) with the \texttt{export} declaration gets exported by the \texttt{index.ts}
 file, which is the entry point of the SDK.
 
-\paragraph{Functionalities}
+\paragraph{Functionalities.}
 After examining the SDK structure, the choices we made, and some technical detail, we can now 
 fully explain its functionalities.
 \begin{itemize}
@@ -418,7 +418,7 @@ fully explain its functionalities.
             \item \textbf{Returns}: the \texttt{Presentation} in \texttt{JSON} format;
             \item \textbf{Notes}: the \texttt{PresentationRequest} object is a union of two
             types, \texttt{PresentCredentialsRequest} and \texttt{PresentCredentialIDsRequest};
-            in this way, a user can chose to pass the credentials or their IDs; other \texttt{object}
+            in this way, a user can choose to pass the credentials or their IDs; other \texttt{object}
             fields are the \texttt{holderDID}, the \texttt{verifierDID}, and more;
         \end{itemize}
     \end{itemize}
@@ -508,8 +508,8 @@ fully explain its functionalities.
         \end{itemize} 
     \end{itemize}
 
-    \item \textbf{utils.ts}: in this files can be found utilities used in the SDK, but that
-    can be also used by the users, such as:
+    \item \textbf{utils.ts}: in these files can be found utilities used in the SDK, but that
+    can also be used by the users, such as:
     \begin{itemize}
         \item \textbf{types}, used to enhance the readability of the code, to avoid errors and to
         make the SDK easier to use;
@@ -528,9 +528,341 @@ fully explain its functionalities.
     
 \end{itemize}
 
-\paragraph{Problems and difficulties found}
+\paragraph{Problems and difficulties found.}
+The most challenging thing about building the SDK was understanding everything about 
+the SSI Kit. The developer needed to learn everything involved in the kit: the W3C 
+standards for credentials issuing and verification, the basics of cryptography,  
+API interaction, and more.\\
+Frequently, the API calls' input or output parameters were not specified in the 
+documentation (at least, the schema was specified but not the true meaning of specific
+fields). This way, the only manner to go on was to analyze the SSI Kit source code
+ (this meant knowing a minimum of Kotlin) or contact the team on Slack.\\
+Finally, a minor bug in the Custodian component was found during the SDK development.
+It has been reported, and the team fixed it in a week.\\
+In the 
+
+\paragraph{Tests.}
+The SDK's main components have been tested, focusing on the SSI Kit's four classes 
+(Custodian, Signatory, Auditor, and ESSIF).\\
+The final coverage is decent but is not 100\%, so it could be slightly improved 
+by testing untested branches.t could be slightly improved by testing untested branches.\\
+In the underlying images, it can be seen (in this order) all files' final coverage, 
+the statements coverage, and finally branches, functions, and lines coverage details.
+\vspace{0.5cm}
+\begin{center}
+    \includegraphics[scale=0.5]{chapter3/coverage1.png}
+    \captionof{figure}{All files' tests coverage percentages}
+\end{center}
+\begin{center}
+    \includegraphics[scale=0.4]{chapter3/coverage2.png}
+    \captionof{figure}{Visual representation and statemets coverage}
+\end{center}
+\begin{center}
+    \includegraphics[scale=0.35]{chapter3/coverage3.png}
+    \captionof{figure}{Branches, functions, and lines coverage details}
+\end{center}
+
+\paragraph{Documentation.}
+The SDK documentation can be found at the link
+\href{https://matteocasonato.gitbook.io/ssikit-sdk/}
+{\seqsplit{https://matteocasonato.gitbook.io/ssikit-sdk/}}. Here can be seen the 
+specifications of the SDK classes and methods and some use examples.
 
 \subsection{Web Application Proof of Concept}
+After the SDK and smart contracts development, we merged the two macro components 
+into a basic web application as a proof of concept of the final solution.\\
+The application serves as an interface for smart contract and SDK interaction, 
+enabling users to interact with verifiable credentials.
+
+\subsubsection{Structure}
+The whole application can be divided into two main components: the frontend, which
+contains the central part of the logic, thanks to React.js, and the backend, used 
+just because some operations would not have been secure if done in the frontend, and 
+something could not be done here because of compatibility issues (browser do not 
+support all the cryptographic functions, as we explain later).
+
+\paragraph{Frontend}
+The frontend breaks down into six main pages:
+\begin{itemize}
+    \item \textbf{Holder}: provides a complete interface for the SDK \texttt{Custodian}
+    class; this component is divided into three sub-components:
+    \begin{itemize}
+        \item[] \textbf{Keys}: here the user can manage the keys used to generate
+        the DIDs. The user can create a new key, export it, delete it and more;
+        \item[] \textbf{DIDs}: here the user can manage their DIDs. The user can create
+        a new DID, load it, delete it;
+        \item[] \textbf{Credentials}: here the user can manage their credentials. The
+        user can import a new credential, present it and delete it.
+    \end{itemize}
+    \item \textbf{Issuer}: provides a complete interface for the SDK \texttt{Signatory}
+    class; this component is divided into two sub-components:
+    \begin{itemize}
+        \item[] \textbf{Issue}: in this component, the user can issue a credential.
+        \item[] \textbf{Revocations}: in this component, the user can revoke a credential
+        or check if a credential is revoked.
+    \end{itemize}
+    \item \textbf{Verifier}: provides a complete interface for the SDK \texttt{Auditor}
+    class, and adds the on-chain functionalities for the verifiers; it is divided into 
+    two sub-components:
+    \begin{itemize}
+        \item[] \textbf{Verifications}: here is possible to verify credentials and put the
+        result on-chain as a verification record; also, verification records are searchable;
+        \item[] \textbf{Verifiers}: here the smart contracts owner can add new verifiers
+        and search them on-chain;
+    \end{itemize}
+    \item \textbf{Contracts}: on this page, the smart contracts owner can register a new
+    contract as trusted or untrusted, and search them on-chain;
+    \item \textbf{Diploma}: on this page, an hypothetical student can request a diploma request
+    NFT, and then consume it to gain access to the final diploma certificate (VC);
+    \item \textbf{EBSI}: here an user can register a DID (generated with \texttt(ebsi)
+    method) on the EBSI network; serves as an interface for the SDK \texttt{ESSIF} class.
+\end{itemize}
+Finally, the application provides the user a web3 wallet connector, so he can interact
+with the smart contracts where needed.
+
+\paragraph{Backend}
+We needed to add a backend to our application for two important reasons:
+\begin{enumerate}
+    \item \textbf{Security}: the frontend is not secure enough to handle cryptographic
+    operations, so we needed to move them to the backend; Specifically, when a 
+    verifier wants to add a new verification record, he must create a signature with 
+    the private key of its DID. The signature certificates that the real verifier is
+    adding that record. As the application must interact with the user's private key, 
+    this must be done at the backend level: if the private key reaches the frontend, 
+    it is no longer secure. We avoided this by using the server as a REST API: when 
+    it has to sign, the user passes its private key's (public) ID. The backend creates
+    the signature, and it is passed to the frontend. The signature can also be 
+    verified with another method.
+    \item \textbf{Compatibility}: the browser does not support all the cryptographic
+    functions we need. In particular, we needed the elliptic curve Secp256k1, used 
+    for Ethereum accounts generation. The DID generated with the ebsi method must be 
+    created with a Secp256k1 key pair because when there is an interaction with the 
+    blockchain, the EBSI API will sign a message using the corresponding private key
+    (which has to be compatible with an Ethereum account).\\
+    Assuming this, if we use cryptographic functions from the frontend (using 
+    React.js), the application will interact with the W3C Web Cryptography API. 
+    Unfortunately, this API does not support the Secp256k1 curve, so we have been 
+    forced to move this logic to the backend. 
+\end{enumerate}
+\clearpage
+\subsubsection{Functionalities}
+We now examine what the two main components of the web application, frontend, and 
+backend, offer (obviously, the frontend offers functionalities to users, and the 
+backend serves only the frontend).
+\paragraph{Frontend.}
+Now we show all the functionalities provided by each previously explained frontend's 
+page.
+\subparagraph{Holder.} This page is divided into three sections: \texttt{Keys}, 
+\texttt{DIDs} and \texttt{Credentials};
+\begin{center}
+    \begin{tcolorbox}[
+        beamer,
+        width=0.6\textheight,
+        arc=0pt,
+        boxsep=0pt,
+        left=0pt,right=0pt,top=0pt,bottom=0pt,
+        ]
+    \includegraphics[width=\linewidth]{chapter3/frontend/holder.png}
+    \end{tcolorbox}
+    \captionof{figure}{The \texttt{Holder} page (\texttt{Keys} section)}
+\end{center}
+In the \texttt{Keys} section inside the \texttt{Holder} page, a user can:
+\begin{itemize}
+    \item Generate a key using a supported algorithm, by pressing the green button \texttt{Generate Key};
+    \item Import a key in \texttt{JWK} format, yellow button;
+    \item Export a key (public or private) in the desired format, by pressing the
+    blue button;
+    \item Delete a key, by pressing the red button;
+    \item Delete all the keys, by pressing the red button \texttt{Delete All Keys};
+\end{itemize}
+\vspace*{0.3cm}
+In the \texttt{DIDs} section, a user can:
+\begin{itemize}
+    \item Create a DID using a supported method and a previously generated key, 
+    by pressing the button \texttt{Create DID};
+    \item Import a DID inserting its string, by pressing the button \texttt{Import DID};
+    \item Resolve a DID by pressing the button \texttt{Resolve DID} (remembering that
+    \texttt{did:key} are in local, and \texttt{did:ebsi} are resolved from the blockchain);
+    \item View a DID loading it from the local storage by pressing the button in the table;
+    \item Delete a DID (from local storage) by pressing the button in the table;
+    \item Delete all the DIDs, by pressing the button \texttt{Delete All DIDs};
+\end{itemize}
+\vspace*{0.3cm}
+In the \texttt{Credentials} section, a user can:
+\begin{itemize}
+    \item Import a credential, giving it an alias, by pressing the button \texttt{Import Credential};
+    \item Present one or more credentials, selecting them in the credentials table
+    and by pressing the button \texttt{Present Credential};
+    \item View a credential loading it from the local storage by pressing the button in the table;
+    \item Delete a credential by pressing the button in the table;
+    \item Delete all the credentials, by pressing the button \texttt{Delete All Credentials};
+\end{itemize}
+
+\vspace{1cm}
+\subparagraph{Issuer.} This page is divided into two sections: \texttt{Issue}
+and \texttt{Revocations};
+\begin{center}
+    \begin{tcolorbox}[
+        beamer,
+        width=0.6\textheight,
+        arc=0pt,
+        boxsep=0pt,
+        left=0pt,right=0pt,top=0pt,bottom=0pt,
+        ]
+    \includegraphics[width=\linewidth]{chapter3/frontend/issuer.png}
+    \end{tcolorbox}
+    \captionof{figure}{The \texttt{Issuer} page (\texttt{Issue} section)}
+\end{center}
+In the \texttt{Issue} section, an issuer can issue a credential by filling out the form and
+by pressing the button \texttt{Issue Credential}. First, he must select a template,
+used for the generation. Then, he must configure the credential, with the possibility
+of adding optional fields. The credential is then generated
+and inserted in the \texttt{Issued credential} field, and we can copy that and import
+locally the issued VC in the \texttt{Holder} page. In a real use case, the credential
+would be sent to the holder using secure communication protocols such as \texttt{OIDC}.
+\vspace*{0.3cm}\\
+In the \texttt{Revocations} section, an issuer can revoke a credential by inserting
+the corresponding private revocation token he generated when he issued the credential.
+The revocation is off-chain, and we have not yet implemented the on-chain call (from the
+frontend) that would change the verification record (however, the function is
+implemented in the smart contract). Also, anyone can check if the credential has been
+revoked by inserting the corresponding public revocation token.
+
+\vspace{1cm}
+\subparagraph{Verifier.} This page is divided into two sections: \texttt{Verifications}
+and \texttt{Verifiers};
+\begin{center}
+    \begin{tcolorbox}[
+        beamer,
+        width=0.6\textheight,
+        arc=0pt,
+        boxsep=0pt,
+        left=0pt,right=0pt,top=0pt,bottom=0pt,
+        ]
+    \includegraphics[width=\linewidth]{chapter3/frontend/verifier.png}
+    \end{tcolorbox}
+    \captionof{figure}{The \texttt{Verifier} page (\texttt{Verifications} section)}
+\end{center}
+\vspace{0.3cm}
+In the \texttt{Verifications} section, a verifier can:
+\begin{itemize}
+    \item Create a verification policy by pressing the green button;
+    \item Verify a credential and register the result on-chain as a verification record. 
+    To do so, he must select at least a verification policy from the list.
+    Before adding the result on-chain, the verifier creates a signature with the 
+    private key of its DID. This way, anyone can resolve their DID and use the public 
+    key (findable in the credential's \texttt{verificationMethod} field) to verify the 
+    signature;
+    \item Search for an on-chain verification record.
+\end{itemize}
+\vspace*{0.3cm}
+In the \texttt{Verifiers} section, the contract owner can register on-chain a new 
+verifier, adding it to the trusted verifiers' list. Anyone here can see the list of
+trusted verifiers and search for a specific one.
+Here is where we manage to merge the off-chain and on-chain solutions in
+the PoC. Other functionalities can be added (e.g., on-chain revocation after off-chain
+happened), but for time reasons, we have only implemented the verification record 
+registration.
+
+\clearpage
+\subparagraph{Contracts.} In the underlying image can be seen the page screenshot.
+\begin{center}
+    \begin{tcolorbox}[
+        beamer,
+        width=0.6\textheight,
+        arc=0pt,
+        boxsep=0pt,
+        left=0pt,right=0pt,top=0pt,bottom=0pt,
+        ]
+    \includegraphics[width=\linewidth]{chapter3/frontend/contracts.png}
+    \end{tcolorbox}
+    \captionof{figure}{The \texttt{Contracts} page}
+\end{center}
+On this page, the contract owner can register a contract as trusted or untrusted
+in the on-chain list. Anyone can see the list of contracts and search for
+a specific one.
+
+\vspace{1cm}
+\subparagraph{Diploma.} In the underlying image can be seen the page screenshot.
+\begin{center}
+    \begin{tcolorbox}[
+        beamer,
+        width=0.6\textheight,
+        arc=0pt,
+        boxsep=0pt,
+        left=0pt,right=0pt,top=0pt,bottom=0pt,
+        ]
+    \includegraphics[width=\linewidth]{chapter3/frontend/diploma.png}
+    \end{tcolorbox}
+    \captionof{figure}{The \texttt{Diploma} page}
+\end{center}
+\clearpage
+On this page\footnote{The details of this whole operation are not explained in this paper,
+as they are examination subjects of another student's thesis.}:
+\begin{itemize}
+    \item A student can request an NFT usable by the user to officially request the diploma;
+    \item The university sees all the NFT requests and can accept them by minting
+    the Request NFT to the student's wallet;
+    \item A student can approve the university to burn the Request NFT; after that,
+    the university can consume (or burn) the Request NFT and issue the VC diploma to 
+    the student (issuing procedure is not implemented).
+\end{itemize}
+
+\vspace{1cm}
+\subparagraph{EBSI.} In the underlying image can be seen the page screenshot.
+\begin{center}
+    \begin{tcolorbox}[
+        beamer,
+        width=0.6\textheight,
+        arc=0pt,
+        boxsep=0pt,
+        left=0pt,right=0pt,top=0pt,bottom=0pt,
+        ]
+    \includegraphics[width=\linewidth]{chapter3/frontend/ebsi.png}
+    \end{tcolorbox}
+    \captionof{figure}{The \texttt{EBSI} page}
+\end{center}
+\vspace{0.3cm}
+A user can register a DID on the EBSI network on this page. The user must insert
+the \texttt{bearerToken}, obtainable on the EBSI official website. The interface
+simplifies the registration process: as explained in the SDK section,
+the process needs three steps, but the user sees only one.
+
+\clearpage
+\paragraph{Backend.}
+The backend is implemented as a REST API. We used it to implement the creation 
+and verification of the signatures made by the verifiers when they register 
+on-chain a verification record.
+\vspace{0.3cm}\\
+The functions made available to the frontend are two:
+\begin{itemize}
+    \item \code{/createSignature}: the verifier signs the verification record
+    with its DID private key. In the request body, the verifier must insert the
+    \texttt{JSON signatureRequest object}, which has two fields: \texttt{keyId},
+    where is specified the private key (public) ID, and \texttt{message},
+    which is the message to sign (in this case, the verification record);
+    the call response is the signature in \texttt{JWS} format;
+    \item \code{/verifySignature}: any user (from the frontend, if the
+    interface is implemented) can verify a signature. In the request body, the
+    verifier must insert the \texttt{JSON verificationRequest object}, which has
+    three fields: \texttt{verifierDid}, where specified the DID of the
+    verifier who signed the message, and \texttt{message}, which is the
+    message to verify (also in this case, the verification record: if the
+    verification record data coincides with the decoded signature payload,
+    then the signature is valid and the verification record is valid too);
+    if the signature is valid, the call response is the signature payload (which
+    should be equal to the verification record), otherwise the function
+    will throw an error.
+\end{itemize}
+
+\subsubsection{Problems and difficulties found}
+Generally, we have not found crucial problems during the PoC development. The only 
+difficulty found was the signature creation; it took a while for us to find the real 
+problem (i.e., the \texttt{Secp256k1} curve incompatibility with the W3C Web 
+Cryptography API). Also, we had to compromise: verifiers, to generate the signature, 
+can only use DID created with the \texttt{ebsi} method (so also with \texttt{Secp256k1}
+curve). The \texttt{/verifySignature} has to be revisited to enhance interoperability
+with other methods and encryption algorithms.
 
 \section{Discussion}
 \subsection{Achievements}
