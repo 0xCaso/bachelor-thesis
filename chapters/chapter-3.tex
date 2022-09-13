@@ -887,15 +887,13 @@ solution.
 So objectively, we reached a satisfying grade of requirements fulfillment, as initially
 we were not sure about the possibilities.
 
-\subsection{Acquired knowledge}
-
 \subsection{Future developments}
 It is obvious to remark that we are only at the beginning of SSI solutions development. 
 Standards are being defined now, and developers do not know the right path to pursue 
 since it is an exploration.
 There can be many future developments for these solutions and the SSI model, especially
 for seamless integration with permissionless blockchains. Let us divide them into two 
-categories: PoC improvements and SSI challenges.
+categories: PoC improvements and SSI next challenges.
 \subsubsection{PoC improvements}
 Some of the possible PoC improvements are:
 \begin{itemize}
@@ -920,7 +918,82 @@ Some of the possible PoC improvements are:
     \item \textbf{Sign with new DID methods}: currently, the only DID method supported 
     for the signature creation, and so for the verifiers' functions, is \texttt{ebsi}; 
     at least should be added the \texttt{key} method, to enhance the product usability.
+    \item \textbf{New DID methods}: New DID methods should be added to widen the entire 
+    product's interoperability. An easy way to do this should be searching for already 
+    existing SDKs (if not in Typescript/Javascript, then they should be wrapped as the 
+    SSI Kit SDK) that support different blockchains (e.g., MATTR and Veramo, explained
+    in \hyperref[otherSDKs]{Chapter 2}) and integrating them in the PoC. Also could be 
+    interesting to add a new wrapper level that includes all the wrappers, as Figure 
+    3.15 shows.
+    \begin{center}
+        \hspace{-1cm}
+        \includegraphics[scale=0.28]{chapter3/monokeesdk.png}
+        \vspace{-0.3cm}
+        \captionof{figure}{Monokee SDK could wrap other SDKs to enhance interoperability
+        with different blockchains.}
+    \end{center}
 \end{itemize}
-\subsubsection{SSI challenges}
+\subsubsection{SSI next challenges}
+Developing the whole product, we studied the SSI model and its primitives. By the way, 
+Self-Sovereign Identity is far from ready for actual adoption. Standards are under 
+development, but this technology has enormous potential for sure.\\
+In \hyperref[subsubsec:comparison]{Chapter 2}, we made a comparison between permissionless
+and permissioned blockchains. For the time being, a significant part of SSI technologies
+works with permissioned blockchains because it is easier to preserve privacy, as here 
+transactions are encrypted, and networks are accessible to trusted members. In 
+permissioned blockchains, the model seems can work. They fit well in federated and 
+private environments where trust is needed and welcome (for example, in a private company). However, what when we talk about 
+public environments? Trust is also needed here, but let us consider this scenario: EBSI 
+is a federated blockchain with public purposes. What happens if the majority of the nodes 
+ally to attack the network? Or if it gets hacked? Is this considered impossible? Why 
+should people trust the authorities when the network works by design, and people do not need
+to trust it? Attacking a network of few nodes (about thirty) is more effortless than 
+attacking, for example, Ethereum (a permissionless blockchain), which has more than 
+420.000 validators. So, if Self-Sovereign Identity wants to give back users their data, 
+it should not force them to trust other entities.\\
+One of the main problems with bringing SSI on-chain is privacy preservation. Everything is public (unless encrypted) 
+on permissionless blockchains, making moving every SSI primitive on-chain challenging. A 
+VC is off-chain because it is easier to keep private, and moving it on-chain without proper 
+encryption mechanisms would destroy privacy. This is not a trivial problem, and 
+researchers are trying to solve it. The latest proposals are ERC-725 standard, zkKYC
+and soulbound tokens.
+
+\paragraph{ERC-725.} It is a proposed standard for blockchain-based identity authored by Fabian 
+Vogelsteller, creator of ERC-20 and Web3.js. ERC-725 describes proxy smart contracts that 
+can be controlled by multiple keys and other smart contracts. ERC-735 is an associated 
+standard to add and remove claims to an ERC-725 identity smart contract. These identity 
+smart contracts can describe humans, groups, objects, and machines. ERC-725 lives on the
+Ethereum blockchain.
+
+\paragraph{zkKYC} Know Your Customer (KYC) is a process that is used to verify the identity 
+of a user. It is a crucial step in the onboarding process of a user in a financial 
+institution, for example in a bank or a crypto exchange. The problem is that KYC is a 
+centralized process, and the user has to trust the institution that is asking for his
+data. zkKYC is a proposal that uses zero-knowledge proofs to verify the identity of a user
+without revealing all of his data.
+
+\paragraph{Soulbound tokens} They essentially are non-transferable NFTs (this is the name 
+reason). In this way, a municipality could mint for a citizen his ID as a soulbound NFT, 
+and the citizen could use it to prove his identity. The token is non-transferable, so it 
+cannot be stolen or used by someone else. The problem is that the token is on-chain, and 
+so it is public. To preserve privacy, Vitalik Buterin propose some solutions in his blog 
+post "Soulbound". One of them, is using zkSNARKs to prove something related to the 
+soulbound token.
+\\\\
+As is understandable, zero-knowledge proofs will play an essential role in SSI progress, 
+and we are just at the beginning of the development. These are just some examples that try to solve the 
+biggest SSI problems, and as it is understandable, there is still much work to be done.
 
 \subsection{Personal evaluation}
+On the technical side, I think we have done a great job. Initially, it was tough to 
+understand what we had to do, as we were helping the team understand it. The path became 
+evident when we completely understood SSI and what the team wanted to do with the product.
+I am proud of the job we have done and the achievement we have reached.\\
+I am glad I chose such a project to develop because it seeks to solve current fundamental
+problems. I am deeply interested in web3, and before this project, I had read about 
+Self-Sovereign Identity but never studied and understood its concepts and components so 
+in-depth.\\
+Now I firmly believe this needs to be part of our future, and fortunately, many researchers 
+and developers are building the foundations. Monokee's team is part of them, and I believe 
+that their product could play a key role in the SSI landscape as, in many circumstances, 
+a hybrid solution is the best solution.\\
