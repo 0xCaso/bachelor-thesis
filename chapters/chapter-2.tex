@@ -25,7 +25,7 @@ To be trusted, a party in an interaction will present credentials to other parti
 and those parties can verify that the credentials come from an \textbf{issuer} they trust.
 This way, the \textbf{verifier}'s trust in the issuer is transferred to the credential 
 \textbf{holder} (or \textbf{prover}). This basic structure of SSI with three participants 
-is sometimes called the "triangle of trust.", simply because you need an element of trust
+is sometimes called the "triangle of trust"\cite{site:trusttriangle}, simply because you need an element of trust
 among these entities for them to work together.
 \vspace*{0.3cm}\\
 While this does not mean that there is a legal partnership or understanding between the 
@@ -33,16 +33,18 @@ entities involved, it does mean that each of the entities is willing to examine 
 credibility of the other, and this implicit trust is what constitutes this term.
 \begin{center}
     \includegraphics[scale=0.2]{chapter2/triangleTrust2.jpeg}
-    \captionof{figure}{The triangle of trust: Prover, Issuer, and Verifier (by Tykn)}
+    \captionof{figure}{The triangle of trust: Prover, Issuer, and Verifier (by 
+    Tykn\cite{site:tyknvc})}
 \end{center}
 \subsubsection{Verifiable Credential (VC)}
-A verifiable credential can represent all of the same information that a physical 
+A verifiable credential\cite{site:w3cvc} can represent all of the same information that a physical 
 credential represents. The addition of technologies, such as digital signatures, 
 makes verifiable credentials more tamper-evident and more trustworthy than their 
 physical counterparts.\\
 \begin{center}
-    \vspace*{-0.5cm}
+    \vspace{-0.5cm}
     \includegraphics[scale=0.2]{chapter2/exampleVc.png}
+    \vspace{-0.3cm}
     \captionof{figure}{Example of verifiable credential (VC)}
 \end{center}
 Holders of verifiable credentials can generate verifiable presentations and then share 
@@ -65,7 +67,7 @@ The three main components of a VC are:
 \end{enumerate}
 
 \subsubsection{Verifiable Presentation (VP)}
-A verifiable presentation expresses data from one or more verifiable credentials and is 
+A verifiable presentation\cite{site:w3cvc} expresses data from one or more verifiable credentials and is 
 packaged in such a way that the authorship of the data is verifiable. If verifiable 
 credentials are presented directly, they become verifiable presentations. Data formats 
 derived from verifiable credentials that are cryptographically verifiable but do not 
@@ -79,7 +81,7 @@ multiple issuers. The aggregation of this information typically expresses an asp
 a person, organization, or entity.
 
 \subsubsection{Decentralized Identifier (DID)}
-Decentralized identifiers are a new type of identifier that guarantees a verifiable, 
+Decentralized identifiers\cite{site:w3cdids} are a new type of identifier that guarantees a verifiable, 
 decentralized digital identity. A DID refers to any subject (e.g., a person, an 
 organization, a data model, an abstract entity...).\\
 DIDs are decoupled from centralized registries, identity providers, and certification 
@@ -114,15 +116,15 @@ of the DID. Services enable trusted interactions associated with the subject of 
 DID. A DID may provide the means to return the DID subject itself if the DID subject 
 is an information resource such as a data model.\\
 A DID is a simple text string consisting of three parts: 1) the DID URI scheme 
-identifier \footnote{The formal syntax of a decentralized identifier. The generic 
-DID scheme begins with the prefix \textit{did:}.}, 2) the identifier for the DID method
-\footnote{A definition of how a specific DID method scheme is implemented.}, and 3) 
+identifier\footnote{The formal syntax of a decentralized identifier. The generic 
+DID scheme begins with the prefix \textit{did:}.}, 2) the identifier for the DID 
+method\footnote{A definition of how a specific DID method scheme is implemented.}, and 3) 
 the DID method-specific identifier.
 
 \subsubsection{JavaScript Object Notation (JSON)}
 \label{subsubsec:json}
 The VC, VP and DID document code examples showed above are all in JSON.\\
-The JSON is a lightweight data-interchange format. It is easy for humans to read and 
+The JSON\cite{site:json} is a lightweight data-interchange format. It is easy for humans to read and 
 write, and for machines to parse and generate. It is based on a subset of the JavaScript
 Programming Language Standard ECMA-262 3rd Edition - December 1999.\\
 JSON is built on two structures:
@@ -166,7 +168,7 @@ This division is based on the access to the network.
     This accessibility implies a trade-off on speed; these networks are often slower than 
     their permissioned counterparts, with fewer members, and transactions are validated by 
     everyone running a connected node. The primary consensus mechanisms are Proof-of-Work 
-    (PoW) and Proof-of-Stake (PoS) \footnote{PoW involves hashing (mining) power, PoS voting 
+    (PoW) and Proof-of-Stake (PoS)\footnote{PoW involves hashing (mining) power, PoS voting 
     (using blockchain coins) power, through validator nodes.}.\\
     What is of most interest in this scenario is that in a permissionless blockchain, 
     everyone can interact, and data is public, so \textbf{preserving privacy becomes difficult}.
@@ -182,13 +184,13 @@ This division is based on the access to the network.
 \end{itemize}
 
 \subsubsection{Ethereum}
-Ethereum is a permissionless blockchain, i.e., open to anyone who wants to interact 
+Ethereum\cite{site:ethereum} is a permissionless blockchain, i.e., open to anyone who wants to interact 
 with it: the trade-off is the introduction of fees, to be paid every time anyone wants 
 to change the state of the Ethereum Virtual Machine (EVM), to mitigate the problems 
 that the permissionless factor introduces (e.g., transaction spam). In the read-only 
 case, no fee needs to be paid. Anyone can then view what is happening in the blockchain 
 and, more importantly, use it. To do so, a user has to generate a \textbf{wallet} (i.e.,
-an address in the blockchain), transfer some funds to it from outside \footnote{Usually
+an address in the blockchain), transfer some funds to it from outside\footnote{Usually
 from a centralized exchange, where cryptoc-urrencies can be traded for fiat currencies
 like EUR or USD, or from another blockchain.} so that fees can be paid, and start 
 interacting with the decentralized applications that are already developed or transfer 
@@ -197,13 +199,13 @@ contracts}: they are programs that run on the Ethereum blockchain. They are a co
 of code (functions) and data (state) that resides at a specific address on the 
 Ethereum blockchain.
 \subsubsection{Hyperledger}
-Hyperledger Foundation is a nonprofit organization that combines all the resources and 
+Hyperledger Foundation\cite{site:hyperledger} is a nonprofit organization that combines all the resources and 
 infrastructure needed to ensure thriving and stable ecosystems around open-source 
 software blockchain projects.\\
 Hyperledger Foundation staff are part of the larger \textbf{Linux Foundation} team with
 years of experience providing management services for programs for open-source projects.
 \subsubsection{Hyperledger Besu}
-Hyperledger Besu is an Ethereum client designed to be enterprise-friendly for use cases 
+Hyperledger Besu\cite{site:besu} is an Ethereum client designed to be enterprise-friendly for use cases 
 of public and private permissioned networks, which require secure transaction processing
 and high performance.\\
 The Besu blockchain, therefore, is EVM compatible: from the perspective of developers 
@@ -242,10 +244,10 @@ will take care of the cryptographic part.\\
 Even \textbf{Privacy Groups} can be created: those who do not belong to the group cannot access 
 particular data. In addition, another interesting feature is that of Multi-Tenant 
 management: multiple participants can use the same Besu and Tessera node through a 
-dedicated user system.
+dedicated user system\cite{site:besudocs}.
 
 \subsubsection{Hyperledger Fabric}
-Hyperledger Fabric is an enterprise-grade, proven, and open distributed ledger 
+Hyperledger Fabric\cite{site:fabric} is an enterprise-grade, proven, and open distributed ledger 
 platform (DLT). It provides advanced privacy controls so that only the shareable 
 data is transmitted among network participants, known as "authorized".\\
 It offers a modular architecture that makes available components (mechanism for 
@@ -259,7 +261,7 @@ After analyzing all the necessary pre-concepts, we can now introduce the last on
 EBSI, which can be used as VDR, and walt.id, the software suite that includes the SSI 
 Kit.
 \subsubsection{EBSI}
-European Blockchain Services Infrastructure (EBSI) is a service infrastructure for 
+European Blockchain Services Infrastructure (EBSI)\cite{site:ebsi} is a service infrastructure for 
 managing European citizens' identity and education credentials. These use cases aim 
 to facilitate the mobility of students, young professionals, and entrepreneurs, as 
 well as ensure and verify the authenticity of digital information in different 
@@ -279,9 +281,9 @@ Finally, in the blockchain are already deployed a series of smart contracts, ser
 as a registry for DIDs (and DID documents) and for trusted applications, issuers, 
 ledgers, and policies.
 \subsubsection{walt.id SSI Kit}
-The walt.id software suite, an open-source project developed by a European team, 
+The walt.id\cite{site:waltid} software suite, an open-source project developed by a European team, 
 consists of a set of kits that allows us to add SSI functionalities to our product. 
-Specifically, by leveraging the SSI Kit, it will be possible to generate encrypted 
+Specifically, by leveraging the SSI Kit\cite{site:ssikit}, it will be possible to generate encrypted 
 keys, register and resolve DIDs, create, issue, submit and verify VCs, and much more. 
 This kit can be used via Command Line Interface (CLI) or REST API. Currently, the 
 kit supports \texttt{did:key}, \texttt{did:web}, and \texttt{did:ebsi} methods (the 
@@ -318,7 +320,7 @@ Initially, we were looking for a kit that provides multichain support (i.e., the
 possibility to interact with more DIDs across multiple blockchains). 
 Unfortunately, an equivalent of the SSI Kit with multiple chains support does not 
 exist, and every other found kit supports at most one blockchain. The Decentralized 
-Identity Foundation (DIF) develops the most interoperable tools we found in the SSI
+Identity Foundation (DIF)\cite{site:dif} develops the most interoperable tools we found in the SSI
 scope: Universal Resolver and Universal Registrar.\\
 We now describe all the solutions we found and specify why we choose the SSI Kit by 
 walt.id.
@@ -331,7 +333,8 @@ Firstly, all the existing kits support the two main DID methods:
     use of an existing web domain as identifier.
 \end{itemize}
 \label{otherSDKs}
-Other than SSI Kit by walt.id, we found two SDKs developed by MATTR and Veramo Labs.
+Other than SSI Kit by walt.id, we found two SDKs developed by MATTR\cite{site:mattr}
+and Veramo Labs\cite{site:veramo}.
 In this table, we will outline the kit, which DID method is supported other than the 
 two discussed, the documentation status, and whether the kit is free to use.
 \renewcommand{\arraystretch}{1.75}
@@ -345,12 +348,12 @@ two discussed, the documentation status, and whether the kit is free to use.
             \textbf{SSI Kit} & \textbf{DID method} & \textbf{Documentation}
              & \textbf{Free to use} & \textbf{Support}\\
             \hline
-            walt.id & did:ebsi & Improvable \tablefootnote{Improvable: not everything
+            walt.id & did:ebsi & Improvable\tablefootnote{Improvable: not everything
             is documented so we must read the source code or contact the team} & Yes & 
             Team, Slack\\ 
-            MATTR & did:ion \tablefootnote{DID method to interact with ION, a Bitcoin 
+            MATTR & did:ion\tablefootnote{DID method to interact with ION, a Bitcoin 
             sidechain} & Good & No & E-mail\\ 
-            Veramo & did:ethr \tablefootnote{DID method to interact with Ethereum} & 
+            Veramo & did:ethr\tablefootnote{DID method to interact with Ethereum} & 
             Improvable & Yes & Discord\\ 
             \hline
         \end{tabular}

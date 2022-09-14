@@ -71,12 +71,51 @@
 
 \DeclareBibliographyCategory{opere}
 \DeclareBibliographyCategory{web}
+\DeclareBibliographyDriver{online}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/editor+others/translator+others}%
+  \setunit{\adddot\addspace}%
+    \iffieldundef{year}
+        {}
+        {\printtext[parens]{\usebibmacro{date}}}
+  \setunit{\adddot\addspace}%
+  \usebibmacro{title}%
+  \setunit{\adddot\addspace}%
+  \printlist{language}%
+  \setunit{\adddot\addspace}%
+  \usebibmacro{byauthor}%
+  \setunit{\adddot\addspace}%
+  \usebibmacro{byeditor+others}%
+  \setunit{\adddot\addspace}%
+  \printfield{version}%
+  \setunit{\adddot\addspace}%
+  \printfield{note}%
+  \newunit\newblock
+  \printlist{organization}%
+  \setunit{\adddot\addspace}%
+  \iftoggle{bbx:eprint}
+    {\usebibmacro{eprint}}
+    {}%
+  \newunit\newblock
+  \usebibmacro{url+urldate}%
+  \setunit{\adddot\addspace}%
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \usebibmacro{related}%
+  \usebibmacro{finentry}%
+}
 
-\addtocategory{opere}{womak:lean-thinking}
+\addtocategory{opere}{article:zkkyc}
+\addtocategory{opere}{article:soulboundpaper}
+\addtocategory{opere}{article:soulbound}
 \addtocategory{web}{site:agile-manifesto}
 
 \defbibheading{opere}{\section*{Bibliographical references}}
 \defbibheading{web}{\section*{Websites consulted}}
+\defbibheading{booklets}{\section*{Booklets / Presentations}}
 
 
 %**************************************************************

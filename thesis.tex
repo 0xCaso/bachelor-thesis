@@ -106,7 +106,7 @@
                                         % 3. eseguire: makeindex -s thesis.ist -t thesis.alg -o thesis.acr thesis.acn
                                         % 4. compilare due volte thesis.tex.
 
-\usepackage[backend=biber,style=verbose-ibid,hyperref,backref]{biblatex}
+\usepackage[backend=biber,style=ieee,hyperref,backref]{biblatex}
                                         % eccellente pacchetto per la bibliografia; 
                                         % produce uno stile di citazione autore-anno; 
                                         % lo stile "numeric-comp" produce riferimenti numerici
@@ -119,6 +119,7 @@
 \usepackage{mdwlist}                    
 \usepackage{seqsplit}                   % split long sequences
 \usepackage[many]{tcolorbox}
+\usepackage{xpatch}
 
 \input{thesis-config}                     % file con le impostazioni personali
 
