@@ -624,8 +624,8 @@ The frontend breaks down into six main pages:
     \item \textbf{EBSI}: here an user can register a DID (generated with \texttt(ebsi)
     method) on the EBSI network; serves as an interface for the SDK \texttt{ESSIF} class.
 \end{itemize}
-Finally, the application provides the user a web3 wallet connector, so he can interact
-with the smart contracts where needed.
+Finally, the application provides the user a web3\cite{site:web3wiki} wallet 
+connector, so he can interact with the smart contracts where needed.
 
 \paragraph{Backend.}
 We needed to add a backend to our application for two important reasons:
@@ -647,7 +647,7 @@ We needed to add a backend to our application for two important reasons:
     blockchain, the EBSI API will sign a message using the corresponding private key
     (which has to be compatible with an Ethereum account).\\
     Assuming this, if we use cryptographic functions from the frontend (using 
-    React.js), the application will interact with the W3C Web Cryptography API. 
+    React.js), the application will interact with the W3C Web Cryptography API\cite{site:w3ccrypto}. 
     Unfortunately, this API does not support the Secp256k1 curve, so we have been 
     forced to move this logic to the backend. 
 \end{enumerate}
@@ -869,7 +869,7 @@ difficulty was the signature creation; it took a while to find the real
 problem (i.e., the \texttt{Secp256k1} curve incompatibility with the W3C Web 
 Cryptography API). Also, we had to compromise: verifiers, to generate the signature, 
 can only use DID created with the \texttt{ebsi} method (so also with \texttt{Secp256k1}
-curve). The \texttt{/verifySignature} has to be revisited to enhance interoperability
+curve). The \code{/verifySignature} has to be revisited to enhance interoperability
 with other methods and encryption algorithms.
 
 \section{Discussion}
@@ -947,16 +947,16 @@ public environments? Trust is also needed here, but let us consider this scenari
 is a federated blockchain with public purposes. What happens if the majority of the nodes 
 ally to attack the network? Or if it gets hacked? Is this considered impossible? Why 
 should people trust the authorities when the network works by design, and people do not need
-to trust it? Attacking a network of few nodes (about thirty) is more effortless than 
-attacking, for example, Ethereum (a permissionless blockchain), which has more than 
-420.000 validators. So, if Self-Sovereign Identity wants to give back users their data, 
+to trust it? Attacking a network of few nodes\cite{site:ebsiterms} (about thirty\cite{site:ebsipres}) 
+is more effortless than attacking, for example, Ethereum (a permissionless blockchain), which has more than 
+420.000 validators\cite{site:ethstaking}. So, if Self-Sovereign Identity wants to give back users their data, 
 it should not force them to trust other entities.\\
 One of the main problems with bringing SSI on-chain is privacy preservation. Everything is public (unless encrypted) 
 on permissionless blockchains, making moving every SSI primitive on-chain challenging. A 
 VC is off-chain because it is easier to keep private, and moving it on-chain without proper 
 encryption mechanisms would destroy privacy. This is not a trivial problem, and 
-researchers are trying to solve it. The latest proposals are ERC-725 standard, zkKYC
-and soulbound tokens.
+researchers are trying to solve it. The latest proposals are ERC-725 standard\cite{site:erc725},
+zkKYC\cite{article:zkkyc} and soulbound tokens\cite{article:soulboundpaper}.
 
 \paragraph{ERC-725.} It is a proposed standard for blockchain-based identity authored by Fabian 
 Vogelsteller, creator of ERC-20 and Web3.js. ERC-725 describes proxy smart contracts that 
@@ -977,8 +977,11 @@ reason). In this way, a municipality could mint for a citizen his ID as a soulbo
 and the citizen could use it to prove his identity. The token is non-transferable, so it 
 cannot be stolen or used by someone else. The problem is that the token is on-chain, and 
 so it is public. To preserve privacy, Vitalik Buterin propose some solutions in his blog 
-post "Soulbound". One of them, is using zkSNARKs to prove something related to the 
-soulbound token.
+post "Soulbound"\cite{article:soulbound}. One of them, is using zkSNARKs\footnote{Non-interactive 
+zero-knowledge proofs are zero-knowledge proofs where the interaction between a prover 
+and a verifier can be simulated by the prover, making direct communication to 
+the verifier unnecessary and making proof generation possible to do off-line.} to prove 
+something related to the soulbound token.
 \vspace{0.3cm}\\
 As is understandable, zero-knowledge proofs will play an essential role in SSI progress, 
 and we are just at the beginning of the development. These are just some examples that try to solve the 
@@ -990,7 +993,7 @@ understand what we had to do, as we were helping the team understand it. The pat
 evident when we completely understood SSI and what the team wanted to do with the product.
 I am proud of the job we have done and the achievement we have reached.\\
 I am glad I chose such a project to develop because it seeks to solve current fundamental
-problems. I am deeply interested in web3, and before this project, I had read about 
+problems. I am deeply interested in web3\cite{site:web3wiki}, and before this project, I had read about 
 Self-Sovereign Identity but never studied and understood its concepts and components so 
 in-depth.\\
 Now I firmly believe this needs to be part of our future, and fortunately, many researchers 
