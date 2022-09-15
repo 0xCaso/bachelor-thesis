@@ -5,15 +5,15 @@
 \chapter{Solution}
 Now we discuss the path we decided to take, how we developed the software, 
 and the technologies we leveraged. Then, we outline the final achievements 
-and what can be done to enhance the PoC potential.
+and what can be done to enhance the POC potential.
 \section{Solution proposal}
 After the conducted analysis in the first two weeks, we concluded that building a 
 new system from zero would have needed too much time and effort, and especially would 
 have required specific advanced skills we did not have.\\
-First, we recall that we are building agents for verifiable credentials interaction. 
+First, we recall that we are building agents for Verifiable Credentials interaction. 
 In a full stack product, our solution is placed between the users, who use secure 
-communication protocols\footnote{For example, OAuth or OIDC, as can be seen in the
-Figure 3.1},  and VDRs\footnote{For example EBSI, Sovrin or IBSI, blockchain used for
+communication protocols\footnote{For example, OAuth or \acrshort{oidc}, as can be seen in the
+Figure 3.1},  and VDRs\footnote{For example EBSI, Sovrin or IBSI, blockchains used for
 SSI purposes}, which store the DIDs, credentials schema, verification policies, 
 and more.
 \begin{center}
@@ -29,14 +29,14 @@ The final software structure has three main components:
 \begin{itemize}
     \item \textbf{Frontend}: it allows the user to interact with the system's core 
     functionalities and serves as an interface for every SSI Kit SDK function.
-    \item \textbf{Backend}: it is needed for security, as we will analyze 
+    \item \textbf{Backend}: it is needed for security, as we analyze 
     further, and for cryptographic functions that the frontend could not execute.
     \item \textbf{SSI Kit SDK}: it exposes all the SSI functionalities, and enables 
     the user to create keys and DIDs, issue VC, present them as VPs, and more.
     \item \textbf{Smart Contracts}: for what concerns SSI Kit integration, the 
     contracts serve as trusted verifiers and verification results register. Some 
     contracts emit ERC-721 tokens, which let the user request the diploma, but they 
-    will not be discussed here.
+    are not discussed here.
 \end{itemize}
 Figure 3.2 shows the system final architecture visualization.
 \begin{center}
@@ -51,19 +51,19 @@ In the following sections, we discuss the technologies we used to build the
 solution, and we explain the main functionalities of the system.
 \subsection{Technologies and Tools}
 Before explaining the solution, we list the languages and tools we leveraged to develop it,
-for both SSI Kit SDK and PoC.
+for both SSI Kit SDK and POC.
 
 \subsubsection{Common tools and languages}
 \begin{itemize}
     \setlength\itemsep{-0.1em}
     \item \texttt{Typescript}: a strongly typed programming language that builds 
-    on JavaScript. It was chosen because the other Monokee's modules were in 
+    on JavaScript. It was chosen because the other Monokee modules were in 
     Typescript, so it would have been easier for the team to integrate. Also, it is 
     very convenient for its strongly typed nature;
     \item \texttt{JSON}: as already covered in \hyperref[subsubsec:json]{Chapter 2}, 
     \texttt{JSON} is a lightweight data-interchange format. It has been extensively used,
     mainly for credentials representation and API calls;
-    \item \texttt{Node.js}: a JavaScript runtime built on Chrome's V8 JavaScript
+    \item \texttt{Node.js}: a JavaScript runtime built on Chrome V8 JavaScript
     engine. It has been used for code execution;
     \item \texttt{npm}: a package manager for the JavaScript programming language.
     It has been used to manage the dependencies of the projects;
@@ -86,8 +86,8 @@ credentials revocation, as can be reed \hyperref[method:isRevoked]{here}}}
     library;
     \item \texttt{axios}: a promise-based HTTP client for the browser and node.js,
     used to make API calls to waltid-ssikit;
-    \item \texttt{uuid}: a library used to generate RFC-compliant Universally Unique
-    Identifiers (UUIDs);
+    \item \texttt{uuid}: a library used to generate \acrshort{rfc}-compliant Universally Unique
+    Identifiers (\acrshort{uuid}s);
     \item \texttt{rfc4648}: a library used to encode and decode data in Base32 format;
     \item \texttt{sha256}: a library used to generate SHA-256 hashes;
     \item \texttt{nacl}: a library used to decode UTF8 \texttt{strings};
@@ -126,7 +126,7 @@ credentials revocation, as can be reed \hyperref[method:isRevoked]{here}}}
     calls them through API calls;
     \item \texttt{ssikit-sdk}: the developed Typescript SDK used to interact with
     the SSI Kit library.
-    \item \texttt{jose}: a library used to encode and decode \texttt{JSON} Web Tokens (JWTs),
+    \item \texttt{jose}: a library used to encode and decode \texttt{JSON} Web Tokens (\acrshort{jwt}s),
     which have been used to represent private and public keys;
     \item \texttt{nodemon}: a tool that automatically restarts the node application
     when file changes in the directory are detected.
@@ -145,7 +145,7 @@ The kit gives us three options:
     \item \textbf{CLI Tool}: it offers a rich set of commands to run the entire functionality 
     the SSI Kit provides. The CLI tool can be used by running the Docker container or
     the executable by the local build.
-    \item \textbf{Dependency (JVM)}: it can be used directly as JVM-dependency via Maven or 
+    \item \textbf{Dependency (\acrshort{jvm})}: it can be used directly as JVM-dependency via Maven or 
     Gradle.
     \item \textbf{REST API}: it can be run as a service, so an application can access its 
     functionalities via REST API.
@@ -168,12 +168,12 @@ made for the SDK development.
 The API is divided in five main components:
 \begin{itemize}
     \item \textbf{Signatory}: the component that manages the issuing and
-    revocation of verifiable credentials. Also, it can list the credential templates
+    revocation of Verifiable Credentials. Also, it can list the credential templates
     used to issue them;
-    \item \textbf{Custodian}: gives a CRUD interface for keys, DIDs and credentials.
+    \item \textbf{Custodian}: gives a \acrshort{crud} interface for keys, DIDs and credentials.
     Here also can be generated VPs;
     \item \textbf{Auditor}: enables the user to manage verification policies,
-    and verify any verifiable credential or presentation;
+    and verify any Verifiable Credential or presentation;
     \item \textbf{ESSIF}: enables the user to interact with EBSI blockchain (e.g.,
     register a DID);
     \item \textbf{Bonus: Core API}: It is a set of functionalities chosen from the 
@@ -229,7 +229,7 @@ functions and interfaces used by the SDK, as we analyze in the next section.
 For the most input/output object parameters of the API calls, we created interfaces
 to type them. This is useful to have a better understanding of the parameters, to 
 avoid errors and to facilitate the use of the SDK.\\
-For verifiable credentials, we did not, as their structure may change from istance
+For Verifiable Credentials, we did not, as their structure may change from istance
 to istance. We simply treat them as \texttt{JSON} objects.\\
 We could leave everything as a \texttt{JSON} object, but we decided to create interfaces for
 the most important objects. Leaving them as \texttt{JSON} objects would have been a bad idea,
@@ -267,12 +267,12 @@ fully explain its functionalities.
     SSI model. It implements five methods:
     \begin{itemize}
         \setlength{\itemsep}{0.4cm}
-        \item[] \code{issueCredential}: issues a verifiable credential;
+        \item[] \code{issueCredential}: issues a Verifiable Credential;
         \begin{itemize}
             \item \textbf{Params}: \texttt{IssueCredentialRequest}, which is an object where 
             it is specified the template ID (chosen by those provided by the SSI Kit), the
             credential data and the proof configuration;
-            \item \textbf{Returns}: a W3C Verifiable Credential in \texttt{JSON} format.
+            \item \textbf{Returns}: a \acrshort{w3c} Verifiable Credential in \texttt{JSON} format.
         \end{itemize}
         \item[] \code{getVCTemplateIDs}: returns the IDs of all the SDK templates;
         \begin{itemize}
@@ -283,9 +283,9 @@ fully explain its functionalities.
         \item[] \code{getVCTemplate}: it returns a specific template;
         \begin{itemize}
             \item \textbf{Params}: the \texttt{templateId} \texttt{string};
-            \item \textbf{Returns}: a verifiable credential template in \texttt{JSON} format.
+            \item \textbf{Returns}: a Verifiable Credential template in \texttt{JSON} format.
         \end{itemize}
-        \item[] \code{isRevoked}: checks if a verifiable credential is revoked;
+        \item[] \code{isRevoked}: checks if a Verifiable Credential is revoked;
         \label{method:isRevoked}
         \begin{itemize}
             \item \textbf{Params}: the corresponding \texttt{publicRevocationToken};
@@ -310,7 +310,7 @@ fully explain its functionalities.
             \captionof{figure}{Revocation tokens functions snippet}
         \end{center}
         \vspace{0.3cm}
-        \item[] \code{revokeCredential}: revokes a verifiable credential;
+        \item[] \code{revokeCredential}: revokes a Verifiable Credential;
         \begin{itemize}
             \item \textbf{Params}: the \texttt{privateRevocationToken}, owned only by the 
             issuer of that VC;
@@ -337,7 +337,7 @@ fully explain its functionalities.
         \begin{itemize}
             \item \textbf{Params}: the \texttt{keyAlgorithm} \texttt{string}, that specifies
             the algorithm used to generate the key; the supported algorithms are 
-            \texttt{RSA}, \texttt{EdDSA\_Ed25519} and \texttt{EdDSA\_Secp256k1};
+            \texttt{RSA}, \texttt{EdDSA\_Ed25519} and \texttt{ECDSA\_Secp256k1};
             \item \textbf{Returns}: the generated \texttt{Key} object.
         \end{itemize}
         \item[] \code{deleteKey}: deletes a key from the holder's wallet;
@@ -349,7 +349,7 @@ fully explain its functionalities.
         \item[] \code{exportKey}: exports a key (private or public) in the desired format;
         \begin{itemize}
             \item \textbf{Params}: the \texttt{key} parameter (\texttt{id string} or \texttt{Key} object),
-            the \texttt{format}, which can be \texttt{JWK} or \texttt{PEM}, and \texttt{exportPrivate}
+            the \texttt{format}, which can be \texttt{\acrshort{jwk}} or \texttt{\acrshort{pem}}, and \texttt{exportPrivate}
             (if \texttt{true}, the private key is exported, otherwise the public one);
             \item \textbf{Returns}: the exported key in \texttt{JSON} format.
         \end{itemize}
@@ -549,7 +549,7 @@ Finally, a minor bug in the Custodian component was found during the SDK develop
 It has been reported, and the team fixed it in a week.
 
 \paragraph{Tests.}
-The SDK's main components have been tested, focusing on the SSI Kit's four classes 
+The SDK's main components have been tested, focusing on the SSI Kit four classes 
 (Custodian, Signatory, Auditor, and ESSIF).\\
 The final coverage is decent but is not 100\%, so it could be slightly improved 
 by testing untested branches.t could be slightly improved by testing untested branches.\\
@@ -579,7 +579,7 @@ specifications of the SDK classes and methods and some use examples.
 After the SDK and smart contracts development, we merged the two macro components 
 into a basic web application as a proof of concept of the final solution.\\
 The application serves as an interface for smart contract and SDK interaction, 
-enabling users to interact with verifiable credentials.
+enabling users to interact with Verifiable Credentials.
 
 \subsubsection{Structure}
 The whole application can be divided into two main components: the frontend, which
@@ -642,9 +642,9 @@ We needed to add a backend to our application for two important reasons:
     verified with another method.
     \item \textbf{Compatibility}: the browser does not support all the cryptographic
     functions we need. In particular, we needed the elliptic curve Secp256k1, used 
-    for Ethereum accounts generation. The DID generated with the ebsi method must be 
+    for Ethereum accounts generation. The DID generated with the \texttt{ebsi} method must be 
     created with a Secp256k1 key pair because when there is an interaction with the 
-    blockchain, the EBSI API will sign a message using the corresponding private key
+    blockchain, the EBSI API signs a message using the corresponding private key
     (which has to be compatible with an Ethereum account).\\
     Assuming this, if we use cryptographic functions from the frontend (using 
     React.js), the application will interact with the W3C Web Cryptography API\cite{site:w3ccrypto}. 
@@ -768,7 +768,7 @@ In the \texttt{Verifiers} section, the contract owner can register on-chain a ne
 verifier, adding it to the trusted verifiers' list. Anyone here can see the list of
 trusted verifiers and search for a specific one.
 Here is where we manage to merge the off-chain and on-chain solutions in
-the PoC. Other functionalities can be added (e.g., on-chain revocation after off-chain
+the POC. Other functionalities can be added (e.g., on-chain revocation after off-chain
 happened), but for time reasons, we have only implemented the verification record 
 registration.
 
@@ -849,7 +849,7 @@ The functions made available to the frontend are two:
     \texttt{JSON signatureRequest object}, which has two fields: \texttt{keyId},
     where is specified the private key (public) ID, and \texttt{message},
     which is the message to sign (in this case, the verification record);
-    the call response is the signature in \texttt{JWS} format;
+    the call response is the signature in \texttt{\acrshort{jws}} format;
     \item \code{/verifySignature}: any user (from the frontend, if the
     interface is implemented) can verify a signature. In the request body, the
     verifier must insert the \texttt{JSON verificationRequest object}, which has
@@ -864,7 +864,7 @@ The functions made available to the frontend are two:
 \end{itemize}
 
 \subsubsection{Problems and difficulties found}
-Generally, we have not found crucial problems during the PoC development. The only 
+Generally, we have not found crucial problems during the POC development. The only 
 difficulty was the signature creation; it took a while to find the real 
 problem (i.e., the \texttt{Secp256k1} curve incompatibility with the W3C Web 
 Cryptography API). Also, we had to compromise: verifiers, to generate the signature, 
@@ -893,9 +893,9 @@ Standards are being defined now, and developers do not know the right path to pu
 since it is an exploration.
 There can be many future developments for these solutions and the SSI model, especially
 for seamless integration with permissionless blockchains. Let us divide them into two 
-categories: PoC improvements and SSI next challenges.
-\subsubsection{PoC improvements}
-Some of the possible PoC improvements are:
+categories: POC improvements and SSI next challenges.
+\subsubsection{POC improvements}
+Some of the possible POC improvements are:
 \begin{itemize}
     \item \textbf{Revocations}: they could be forced to be instantly reflected on-chain
     with a smart contract call after the revocation is made on the off-chain side, as
@@ -907,7 +907,7 @@ Some of the possible PoC improvements are:
     a UX perspective, as it is now a basic form, easy to use just for a developer who
     knows what he is doing;
     \item \textbf{Secure communication protocols}: a thing that we did not implement is the
-    secure verifiable credential exchange. Fortunately, walt.id kits provide API to
+    secure Verifiable Credential exchange. Fortunately, walt.id kits provide API to
     implement this feature, so it is possible to add it in the future also using those kits;
     \item \textbf{On-chain DID signature check}: it could be helpful to move the signature 
     verification (now provided by the frontend through \code{/verifySignature}) to the 
@@ -922,7 +922,7 @@ Some of the possible PoC improvements are:
     product's interoperability. An easy way to do this should be searching for already 
     existing SDKs (if not in Typescript/Javascript, then they should be wrapped as the 
     SSI Kit SDK) that support different blockchains (e.g., MATTR and Veramo, explained
-    in \hyperref[otherSDKs]{Chapter 2}) and integrating them in the PoC. Also could be 
+    in \hyperref[otherSDKs]{Chapter 2}) and integrating them in the POC. Also could be 
     interesting to add a new wrapper level that includes all the wrappers, as Figure 
     3.15 shows.
     \begin{center}
@@ -965,7 +965,7 @@ standard to add and remove claims to an ERC-725 identity smart contract. These i
 smart contracts can describe humans, groups, objects, and machines. ERC-725 lives on the
 Ethereum blockchain.
 
-\paragraph{zkKYC.} Know Your Customer (KYC) is a process that is used to verify the identity 
+\paragraph{zkKYC.} \acrfull{kyc} is a process that is used to verify the identity 
 of a user. It is a crucial step in the onboarding process of a user in a financial 
 institution, for example in a bank or a crypto exchange. The problem is that KYC is a 
 centralized process, and the user has to trust the institution that is asking for his
@@ -977,7 +977,7 @@ reason). In this way, a municipality could mint for a citizen his ID as a soulbo
 and the citizen could use it to prove his identity. The token is non-transferable, so it 
 cannot be stolen or used by someone else. The problem is that the token is on-chain, and 
 so it is public. To preserve privacy, Vitalik Buterin propose some solutions in his blog 
-post "Soulbound"\cite{article:soulbound}. One of them, is using zkSNARKs\footnote{Non-interactive 
+post "Soulbound"\cite{article:soulbound}. One of them, is using \acrshort{zksnark}s\footnote{Non-interactive 
 zero-knowledge proofs are zero-knowledge proofs where the interaction between a prover 
 and a verifier can be simulated by the prover, making direct communication to 
 the verifier unnecessary and making proof generation possible to do off-line.} to prove 
@@ -997,6 +997,6 @@ problems. I am deeply interested in web3\cite{site:web3wiki}, and before this pr
 Self-Sovereign Identity but never studied and understood its concepts and components so 
 in-depth.\\
 Now I firmly believe this needs to be part of our future, and fortunately, many researchers 
-and developers are building the foundations. Monokee's team is part of them, and I believe 
+and developers are building the foundations. The Monokee team is part of them, and I believe 
 that their product could play a key role in the SSI landscape as, in many circumstances, 
 a hybrid solution is the best solution.\\

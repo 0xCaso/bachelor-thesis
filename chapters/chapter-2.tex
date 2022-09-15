@@ -5,16 +5,16 @@
 \chapter{State of the art and technology background}
 This chapter presents the pre-concepts needed to comprehend this paper's content fully.
 As is understandable from the introduction, they are about Self-Sovereign Identity and 
-blockchains. In addition, state of the art will be analyzed to see what has already been
+blockchains. In addition, we analyze the state of the art to see what has already been
 done and what can be improved.
 % /*//////////////////////////////////////////////////////////////
 %                       TECHNOLOGY CONCEPTS
 % //////////////////////////////////////////////////////////////*/
 \section{Technology concepts}
-This section will explain in detail SSI and blockchain technologies.
+This section explains in detail SSI and blockchain technologies.
 \subsection{Self-Sovereign Identity concepts}
-Here can be read a brief reprise of what has already been saying about Self-Sovereign 
-Identity and a description of its main primitives: VCs, VPs, and DIDs.
+Here we introduce the concepts of \acrfull{ssi} and its main components:
+Verifiable Credentials, Verifiable Presentations and Decentralized Identifiers.
 \subsubsection{Self-Sovereign Identity}
 Self-Sovereign Identity is an approach to digital identity that gives individuals 
 control over their data. SSI addresses the difficulty of establishing trust in 
@@ -25,32 +25,33 @@ To be trusted, a party in an interaction will present credentials to other parti
 and those parties can verify that the credentials come from an \textbf{issuer} they trust.
 This way, the \textbf{verifier}'s trust in the issuer is transferred to the credential 
 \textbf{holder} (or \textbf{prover}). This basic structure of SSI with three participants 
-is sometimes called the "triangle of trust"\cite{site:trusttriangle}, simply because you need an element of trust
-among these entities for them to work together.
+is sometimes called the "triangle of trust"\cite{site:trusttriangle} (shown in Figure 2.1),
+simply because you need an element of trust among these entities for them to work 
+together.
 \vspace*{0.3cm}\\
 While this does not mean that there is a legal partnership or understanding between the 
 entities involved, it does mean that each of the entities is willing to examine the 
 credibility of the other, and this implicit trust is what constitutes this term.
 \begin{center}
     \includegraphics[scale=0.2]{chapter2/triangleTrust2.jpeg}
-    \captionof{figure}{The triangle of trust: Prover, Issuer, and Verifier (by 
+    \captionof{figure}{The triangle of trust: Prover (or Holder), Issuer, and Verifier (by 
     Tykn\cite{site:tyknvc})}
 \end{center}
 \subsubsection{Verifiable Credential (VC)}
-A verifiable credential\cite{site:w3cvc} can represent all of the same information that a physical 
+A Verifiable Credential\cite{site:w3cvc} can represent all of the same information that a physical 
 credential represents. The addition of technologies, such as digital signatures, 
-makes verifiable credentials more tamper-evident and more trustworthy than their 
-physical counterparts.\\
+makes Verifiable Credentials more tamper-evident and more trustworthy than their 
+physical counterparts. Figure 2.2 shows a VC example.\\
 \begin{center}
     \vspace{-0.5cm}
     \includegraphics[scale=0.2]{chapter2/exampleVc.png}
     \vspace{-0.3cm}
-    \captionof{figure}{Example of verifiable credential (VC)}
+    \captionof{figure}{Example of Verifiable Credential (VC)}
 \end{center}
-Holders of verifiable credentials can generate verifiable presentations and then share 
-these verifiable presentations with verifiers to prove they possess verifiable 
+Holders of Verifiable Credentials can generate Verifiable Presentations and then share 
+these Verifiable Presentations with verifiers to prove they possess verifiable 
 credentials with certain characteristics.\\
-Both verifiable credentials and verifiable presentations can be transmitted rapidly, 
+Both Verifiable Credentials and Verifiable Presentations can be transmitted rapidly, 
 making them more convenient than their physical counterparts when trying to establish 
 trust at a distance.
 The three main components of a VC are:
@@ -67,14 +68,17 @@ The three main components of a VC are:
 \end{enumerate}
 
 \subsubsection{Verifiable Presentation (VP)}
-A verifiable presentation\cite{site:w3cvc} expresses data from one or more verifiable credentials and is 
+A Verifiable Presentation\cite{site:w3cvc} expresses data from one or more Verifiable Credentials and is 
 packaged in such a way that the authorship of the data is verifiable. If verifiable 
-credentials are presented directly, they become verifiable presentations. Data formats 
-derived from verifiable credentials that are cryptographically verifiable but do not 
-themselves contain verifiable credentials might also be verifiable presentations.
+credentials are presented directly, they become \acrshort{vp}s. Data formats 
+derived from Verifiable Credentials that are cryptographically verifiable but do not 
+themselves contain Verifiable Credentials might also be Verifiable Presentations.
+Figure 2.3 shows a VP example.
 \begin{center}
+    \vspace{-0.3cm}
     \includegraphics[scale=0.18]{chapter2/exampleVp.png}
-    \captionof{figure}{Example of verifiable presentation (VP)}
+    \vspace{-0.3cm}
+    \captionof{figure}{Example of Verifiable Presentation (VP)}
 \end{center}
 The data in a presentation is often about the same subject but might have been issued by 
 multiple issuers. The aggregation of this information typically expresses an aspect of 
@@ -82,12 +86,14 @@ a person, organization, or entity.
 
 \subsubsection{Decentralized Identifier (DID)}
 Decentralized identifiers\cite{site:w3cdids} are a new type of identifier that guarantees a verifiable, 
-decentralized digital identity. A DID refers to any subject (e.g., a person, an 
+decentralized digital identity. A \acrshort{did} refers to any subject (e.g., a person, an 
 organization, a data model, an abstract entity...).\\
 DIDs are decoupled from centralized registries, identity providers, and certification 
 authorities. Specifically, while other parties can be used to retrieve information 
 about a DID, the design allows the controller of a DID to demonstrate control over it 
 without requiring permission from other parties.
+Figure 2.4 shows a DID example. Figure 2.5 shows the structure of a DID document.
+Figure 2.6 shows a DID document example.
 \begin{figure}[!htb]
     \begin{minipage}{0.48\textwidth}
       \centering
@@ -102,13 +108,13 @@ without requiring permission from other parties.
     \end{minipage}
  \end{figure}
 \begin{center}
-    \vspace{-0.8cm}
+    \vspace{-0.6cm}
     \includegraphics[scale=0.19]{chapter2/didDoc.png}
     \vspace{-0.4cm}
     \captionof{figure}{Example of DID document}
 \end{center}
 \vspace{0.5cm}
-DIDs are Uniform Resource Identifiers (URIs) that associate a DID subject with a DID 
+DIDs are Uniform Resource Identifiers (\acrshort{uri}s) that associate a DID subject with a DID 
 document that enables trusted interactions associated with that subject.
 Each DID document may contain encrypted material, verification methods, or services, 
 which provide a set of mechanisms that allow a DID controller to demonstrate control 
@@ -121,7 +127,7 @@ DID scheme begins with the prefix \textit{did:}.}, 2) the identifier for the DID
 method\footnote{A definition of how a specific DID method scheme is implemented.}, and 3) 
 the DID method-specific identifier.
 
-\subsubsection{JavaScript Object Notation (JSON)}
+\subsubsection{\acrfull{json}}
 \label{subsubsec:json}
 The VC, VP and DID document code examples showed above are all in JSON.\\
 The JSON\cite{site:json} is a lightweight data-interchange format. It is easy for humans to read and 
@@ -138,12 +144,13 @@ These are universal data structures. Virtually all modern programming languages 
 them in one form or another. It makes sense that a data format that is interchangeable 
 with programming languages also be based on these structures.
 \subsection{Blockchain concepts}
-Here we will introduce the main concepts of blockchain technology, essentials to 
-understand the PoC development phase and some SDK features.
+Here we introduce the main concepts of blockchain technology, essentials to 
+understand the POC development phase and some SDK features.
 \subsubsection{Blockchain}
 The blockchain is a shared, immutable database structured in the form of a chain of 
 blocks, each of which contains a set of information. In essence, blockchains represent 
-digital ledgers and perform different functions.
+digital ledgers and perform different functions. Figure 2.7 shows a simple blockchain 
+visual representation.
 \begin{center}
     \includegraphics[scale=0.2]{chapter2/blockchain.png}
     \captionof{figure}{Simple blockchain visualization}
@@ -186,7 +193,7 @@ This division is based on the access to the network.
 \subsubsection{Ethereum}
 Ethereum\cite{site:ethereum} is a permissionless blockchain, i.e., open to anyone who wants to interact 
 with it: the trade-off is the introduction of fees, to be paid every time anyone wants 
-to change the state of the Ethereum Virtual Machine (EVM), to mitigate the problems 
+to change the state of the \acrfull{evm}, to mitigate the problems 
 that the permissionless factor introduces (e.g., transaction spam). In the read-only 
 case, no fee needs to be paid. Anyone can then view what is happening in the blockchain 
 and, more importantly, use it. To do so, a user has to generate a \textbf{wallet} (i.e.,
@@ -244,11 +251,14 @@ will take care of the cryptographic part.\\
 Even \textbf{Privacy Groups} can be created: those who do not belong to the group cannot access 
 particular data. In addition, another interesting feature is that of Multi-Tenant 
 management: multiple participants can use the same Besu and Tessera node through a 
-dedicated user system\cite{site:besudocs}.
+dedicated user system\cite{site:besudocs}.\\
+Figure 2.8 shows the blockchain access restriction, Figure 2.9 shows how Tessera nodes
+work, as we analyze further, Figure 2.10 visually represents Privacy Groups and
+Figure 2.11 shows how Tenants are managed. 
 
 \subsubsection{Hyperledger Fabric}
-Hyperledger Fabric\cite{site:fabric} is an enterprise-grade, proven, and open distributed ledger 
-platform (DLT). It provides advanced privacy controls so that only the shareable 
+Hyperledger Fabric\cite{site:fabric} is an enterprise-grade, proven, and open Distributed Ledger 
+Technology (DLT) platform. It provides advanced privacy controls so that only the shareable 
 data is transmitted among network participants, known as "authorized".\\
 It offers a modular architecture that makes available components (mechanism for 
 consensus, services for joining and managing blockchain members) that can be activated
@@ -258,22 +268,22 @@ it is not EVM compatible so the smart contracts will be written in languages suc
 Java and Go instead of Solidity.
 \subsection{Libraries and Stack involved}
 After analyzing all the necessary pre-concepts, we can now introduce the last ones:
-EBSI, which can be used as VDR, and walt.id, the software suite that includes the SSI 
-Kit.
+EBSI, which we use as VDR, and walt.id, the software suite that includes the SSI 
+Kit, which we leverage to develop the solution.
 \subsubsection{EBSI}
-European Blockchain Services Infrastructure (EBSI)\cite{site:ebsi} is a service infrastructure for 
+\acrfull{ebsi}\cite{site:ebsi} is a service infrastructure for 
 managing European citizens' identity and education credentials. These use cases aim 
 to facilitate the mobility of students, young professionals, and entrepreneurs, as 
 well as ensure and verify the authenticity of digital information in different 
-sectors.
+sectors. Figure 2.12 shows the EBSI interaction flow.
 \begin{center}
     \includegraphics[scale=0.27]{chapter2/ebsiflow.png}
     \captionof{figure}{EBSI interaction flow}
 \end{center}
 Its structure is rather complex, consisting of two essential layers: the bottom layer 
-is made up of EBSI's blockchain, which holds all the credentials and smart contracts 
+is made up of EBSI blockchain, which holds all the credentials and smart contracts 
 with which one can interact with them, while the upper layer by a microservices 
-architecture and Application Programming Interface (API), which interface with the 
+architecture and \acrfull{api}, which interface with the 
 blockchain. In practice, to talk to the EBSI blockchain (if you do not have a node), 
 you must interface through the microservices architecture and API. The blockchains
 used by EBSI are Hyperledger Fabric and Hyperledger Besu.\\
@@ -283,15 +293,15 @@ ledgers, and policies.
 \subsubsection{walt.id SSI Kit}
 The walt.id\cite{site:waltid} software suite, an open-source project developed by a European team, 
 consists of a set of kits that allows us to add SSI functionalities to our product. 
-Specifically, by leveraging the SSI Kit\cite{site:ssikit}, it will be possible to generate encrypted 
+Specifically, by leveraging the SSI Kit\cite{site:ssikit}, it is possible to generate encrypted 
 keys, register and resolve DIDs, create, issue, submit and verify VCs, and much more. 
-This kit can be used via Command Line Interface (CLI) or REST API. Currently, the 
+This kit can be used via \acrfull{cli} or \acrshort{rest} API. Currently, the 
 kit supports \texttt{did:key}, \texttt{did:web}, and \texttt{did:ebsi} methods (the 
 latter allows us to talk to the EBSI blockchain). Since, by default, it dialogues with 
-other APIs (e.g., EBSI's API), if we wanted to register, for example, a DID in a 
+other APIs (e.g., EBSI API), if we wanted to register, for example, a DID in a 
 mainnet that has not yet been registered, such as Sovrin, we would need to add the 
 \texttt{did:sov} method to the list of supported methods, also implementing the 
-dialogue with Sovrin's API. Doing this would require a new module development, 
+dialogue with Sovrin API. Doing this would require a new module development, 
 integrating it with the SSI Kit, and developing something similar to what has been 
 done for EBSI, although the complexity is unknown.
 % /*//////////////////////////////////////////////////////////////
@@ -301,7 +311,7 @@ done for EBSI, although the complexity is unknown.
 Taking back the purpose of this paper, we want to build a hybrid solution, merging SSI 
 with blockchain smart contracts. Currently, within SSI, most blockchains are used only 
 as VDR (so to store DIDs, VC verification policies, schemas...).\\
-The final software (PoC) has to leverage a kit to offer SSI functionalities (SDK) and 
+The final software (POC) has to leverage a kit to offer SSI functionalities (SDK) and 
 combine these with blockchain features to automate verifications and possibly 
 facilitate certain issuing cases (smart contract suite).\\
 That said, we can now illustrate what already exists and what has to be crafted.
@@ -319,9 +329,7 @@ solutions.\\
 Initially, we were looking for a kit that provides multichain support (i.e., the 
 possibility to interact with more DIDs across multiple blockchains). 
 Unfortunately, an equivalent of the SSI Kit with multiple chains support does not 
-exist, and every other found kit supports at most one blockchain. The Decentralized 
-Identity Foundation (DIF)\cite{site:dif} develops the most interoperable tools we found in the SSI
-scope: Universal Resolver and Universal Registrar.\\
+exist, and every other found kit supports at most one blockchain.\\
 We now describe all the solutions we found and specify why we choose the SSI Kit by 
 walt.id.
 \vspace{0.35cm}\\
@@ -335,7 +343,7 @@ Firstly, all the existing kits support the two main DID methods:
 \label{otherSDKs}
 Other than SSI Kit by walt.id, we found two SDKs developed by MATTR\cite{site:mattr}
 and Veramo Labs\cite{site:veramo}.
-In this table, we will outline the kit, which DID method is supported other than the 
+In Table 2.1, we outline the kit, which DID method is supported other than the 
 two discussed, the documentation status, and whether the kit is free to use.
 \renewcommand{\arraystretch}{1.75}
 \vspace{0.1cm}\\
@@ -380,7 +388,18 @@ functionalities and was more customizable. Additionally, it supported EBSI, whic
 a good "nice-to-have" for Monokee, as in contact with the University of Naples 
 Federico II to build a project interacting with the European blockchain.\\
 Finally, the team was very active and chose to support us in developing the SDK for 
-walt.id SSI Kit.
+walt.id SSI Kit.\\
+Other than the listed resources, we found another two tools developed by The Decentralized 
+Identity Foundation (DIF)\cite{site:dif}: Universal Resolver and Universal Registrar.
+\textbf{Universal Resolver}\cite{site:unires} is a tool that resolves DIDs to DID Documents. As the SSI Kit can 
+resolve one on-chain DID method (\texttt{did:ebsi}), we decided with Monokee to
+integrate this in the SDK to enhance its functionalities, as the tool supports
+numerous DID methods.\\
+\textbf{Universal Registrar}\cite{site:unireg} is a tool that allows on-chain DIDs registration and
+supports multiple DID methods. However, after a short analysis, we decided not to
+integrate it in the SDK, as a wrapper would not have simplified the interaction
+with the tool (that is not very easy to use, as different methods require different
+and specific parameters). This can always be done in future development if needed.
 
 \subsection{Smart contract suites}
 Regarding the use of smart contracts in the SSI environment, we first need to know how they 
@@ -407,17 +426,17 @@ Our research uncovered two libraries: one for the leading and most used patterns
 for the SSI features.\\
 The first one is an extensive collection of patterns and security standards developed by 
 \textbf{OpenZeppelin}\cite{site:openzeppelin}. It ranges from the simplest things, such as a counter standard contract, to 
-the most complex, such as Ethereum Request for Comments (ERC) implementations (ERC-20 is 
+the most complex, such as \acrfull{erc} implementations (ERC-20 is 
 one of the most famous, and it is the standard for Ethereum fungible tokens)
-For example, we will use the ERC-721 implementation (Non-Fungible Tokens, or NFTs) to 
+For example, we use the ERC-721 implementation (\acrfull{nft}) to 
 implement one of the use cases.\\
 The second one is a suite of smart contracts that aims to bring SSI on-chain. It is called 
 \textbf{Verite}\cite{site:verite} and is being developed by Centre (to give a background, Centre is the company
 that developed USDC, one of the leading stablecoins in the cryptocurrency market).
 As it stands, the library only contains a smart contract that serves as a verification 
 results registry, and we decided to take it and adapt it to our purposes.
-\vspace{0.3cm}\\
-Since, during our research, we did not find an implementation of on-chain issuer or verifier 
-agents, we decided to re-use already existing smart contract libraries and build some simple
+\clearpage
+Since, during our research, we did not find on-chain issuer or verifier agents implementations,  
+we decided to re-use already existing smart contract libraries and build some
 auxiliary smart contracts we needed in order to implement on-chain registries to at least 
 make some actions more immediate (like verifications and revocations).

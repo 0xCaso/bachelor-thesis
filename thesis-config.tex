@@ -8,7 +8,7 @@
 
 % Autore
 \newcommand{\myName}{Matteo Casonato}                                    
-\newcommand{\myTitle}{Owning your data through Self-Sovereign Identity: agents implementation for Verifiable Credentials interaction}
+\newcommand{\myTitle}{Owning your data through Self-Sovereign Identity: agents implementation for Verifiable\\Credentials interaction}
 
 % Tipo di thesis                   
 \newcommand{\myDegree}{Bachelor thesis}
@@ -117,6 +117,8 @@
 \defbibheading{web}{\section*{Websites consulted}}
 \defbibheading{booklets}{\section*{Booklets / Presentations}}
 
+\renewcommand*{\glstextformat}[1]{\textcolor{black}{#1}}
+
 
 %**************************************************************
 % Impostazioni di caption
@@ -132,8 +134,8 @@
 %**************************************************************
 % Impostazioni di glossaries
 %**************************************************************
+\input{glossary.tex} % database di termini
 \makeglossaries
-\input{glossary} % database di termini
 
 
 %**************************************************************
